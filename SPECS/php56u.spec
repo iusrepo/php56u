@@ -533,10 +533,10 @@ Group: Development/Languages
 # pdo_odbc is licensed under PHP version 3.0
 License: PHP
 Requires: %{name}-pdo = %{version}-%{release}
-Provides: php_database
-Provides: php-pdo_odbc, php-pdo_odbc%{?_isa}
+Provides: %{name}_database
+Provides: %{name}-pdo_odbc, %{name}-pdo_odbc%{?_isa}
 Provides: %{real_name}_database
-Provides: %{real_name}-pdo_odbc
+Provides: %{real_name}-pdo_odbc, %{real_name}-pdo_odbc%{?_isa}
 Provides: %{name}-odbc = %{version}-%{release}
 Provides: %{real_name}-odbc = %{version}-%{release}
 BuildRequires: unixODBC-devel
