@@ -468,8 +468,8 @@ Provides: %{name}-mysqli = %{version}-%{release}
 Provides: %{real_name}-mysqli = %{version}-%{release}
 Provides: %{name}-mysqli%{?_isa} = %{version}-%{release}
 Provides: %{real_name}-mysqli%{?_isa} = %{version}-%{release}
-Provides: %{name}-pdo_mysql, php-pdo_mysql%{?_isa}
-Provides: %{real_name}-pdo_mysql, php-pdo_mysql%{?_isa}
+Provides: %{name}-pdo_mysql, %{name}-pdo_mysql%{?_isa}
+Provides: %{real_name}-pdo_mysql, %{real_name}-pdo_mysql%{?_isa}
 
 %description mysqlnd
 The php-mysqlnd package contains a dynamic shared object that will add
