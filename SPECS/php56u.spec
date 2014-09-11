@@ -468,8 +468,8 @@ Provides: %{name}-mysqli = %{version}-%{release}
 Provides: %{real_name}-mysqli = %{version}-%{release}
 Provides: %{name}-mysqli%{?_isa} = %{version}-%{release}
 Provides: %{real_name}-mysqli%{?_isa} = %{version}-%{release}
-Provides: %{name}-pdo_mysql, php-pdo_mysql%{?_isa}
-Provides: %{real_name}-pdo_mysql, php-pdo_mysql%{?_isa}
+Provides: %{name}-pdo_mysql, %{name}-pdo_mysql%{?_isa}
+Provides: %{real_name}-pdo_mysql, %{real_name}-pdo_mysql%{?_isa}
 
 %description mysqlnd
 The php-mysqlnd package contains a dynamic shared object that will add
@@ -533,10 +533,10 @@ Group: Development/Languages
 # pdo_odbc is licensed under PHP version 3.0
 License: PHP
 Requires: %{name}-pdo = %{version}-%{release}
-Provides: php_database
-Provides: php-pdo_odbc, php-pdo_odbc%{?_isa}
+Provides: %{name}_database
+Provides: %{name}-pdo_odbc, %{name}-pdo_odbc%{?_isa}
 Provides: %{real_name}_database
-Provides: %{real_name}-pdo_odbc
+Provides: %{real_name}-pdo_odbc, %{real_name}-pdo_odbc%{?_isa}
 Provides: %{name}-odbc = %{version}-%{release}
 Provides: %{real_name}-odbc = %{version}-%{release}
 BuildRequires: unixODBC-devel
@@ -1051,7 +1051,7 @@ ln -sf ../configure
     --without-gdbm \
     --with-jpeg-dir=%{_prefix} \
     --with-openssl \
-    --with-pcre-regex=%{_prefix} \
+    --with-pcre-regex \
     --with-zlib \
     --with-layout=GNU \
     --with-kerberos \
