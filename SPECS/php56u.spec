@@ -1696,6 +1696,10 @@ fi
 - change requirements from httpd-filesystem to just httpd
 - remove proxy setting from php.conf that are not available in Apache 2.4.6
 - add requirement for jsonc
+- changes from https://github.com/iuscommunity-pkg/php56u/pull/1
+- build with bundled PCRE instead of system PCRE
+- fix macros on php-odbc
+- fix macros in php-mysqlnd
 
 * Mon Sep 08 2014 Ben Harper <ben.harper@rackspace.com> - 5.6.0-0.ius
 - porting from Fedora SRPM
