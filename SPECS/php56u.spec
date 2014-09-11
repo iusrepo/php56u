@@ -80,7 +80,7 @@
 Summary: PHP scripting language for creating dynamic web sites
 Name: %{real_name}%{?ius_suffix}
 Version: 5.6.0
-Release: 0.ius%{?dist}
+Release: 1.ius%{?dist}
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
 # TSRM is licensed under BSD
@@ -144,8 +144,6 @@ Patch302: php-5.6.0-noNO.patch
 
 BuildRequires: bzip2-devel, curl-devel >= 7.9
 BuildRequires: httpd-devel >= 2.0.46-1, pam-devel
-# to ensure we are using httpd with filesystem feature (see #1081453)
-#BuildRequires: httpd-filesystem
 BuildRequires: httpd
 BuildRequires: libstdc++-devel, openssl-devel
 BuildRequires: sqlite-devel >= 3.6.0
@@ -242,11 +240,8 @@ Requires(preun):   chkconfig
 Requires(preun):   initscripts
 Requires(postun):  initscripts
 %endif
-# To ensure correct /var/lib/php/session ownership:
-Requires(pre): httpd-filesystem
-# For php.conf in /etc/httpd/conf.d
-# and version 2.4.10 for proxy support in SetHandler
-Requires: httpd-filesystem >= 2.4.10
+Requires(pre): httpd
+Requires: httpd
 Provides: %{name}-fpm = %{version}-%{release}
 Provides: %{real_name}-fpm = %{version}-%{release}
 
@@ -295,9 +290,7 @@ Provides: %{name}-sockets, %{name}-sockets%{?_isa}
 Provides: %{name}-spl, %{name}-spl%{?_isa}
 Provides: %{name}-standard = %{version}, %{name}-standard%{?_isa} = %{version}
 Provides: %{name}-tokenizer, %{name}-tokenizer%{?_isa}
-#%if ! %{php_bootstrap}
-#Requires: php-pecl-jsonc%{?_isa}
-#%endif
+Requires: %{name}-pecl-jsonc%{?_isa}
 %if %{with_zip}
 Provides: %{name}-zip, %{name}-zip%{?_isa}
 Obsoletes: php-pecl-zip < 1.11
@@ -1699,6 +1692,11 @@ fi
 
 
 %changelog
+* Wed Sep 10 2014 Ben Harper <ben.harper@rackspace.com> - 5.6.0-1.ius
+- change requirements from httpd-filesystem to just httpd
+- remove proxy setting from php.conf that are not available in Apache 2.4.6
+- add requirement for jsonc
+
 * Mon Sep 08 2014 Ben Harper <ben.harper@rackspace.com> - 5.6.0-0.ius
 - porting from Fedora SRPM
 
