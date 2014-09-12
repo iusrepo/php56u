@@ -290,7 +290,7 @@ Provides: %{name}-sockets, %{name}-sockets%{?_isa}
 Provides: %{name}-spl, %{name}-spl%{?_isa}
 Provides: %{name}-standard = %{version}, %{name}-standard%{?_isa} = %{version}
 Provides: %{name}-tokenizer, %{name}-tokenizer%{?_isa}
-Requires: %{name}-pecl-jsonc%{?_isa}
+Requires: %{name}-pecl-jsonc
 %if %{with_zip}
 Provides: %{name}-zip, %{name}-zip%{?_isa}
 Obsoletes: php-pecl-zip < 1.11
@@ -327,11 +327,6 @@ Provides: %{real_name}-spl, %{real_name}-spl%{?_isa}
 Provides: %{real_name}-standard = %{version}, %{real_name}-standard%{?_isa} = %{version}
 Provides: %{real_name}-tokenizer, %{real_name}-tokenizer%{?_isa}
 
-#%if %{with_json}
-#Provides: %{real_name}-json, %{real_name}-json%{?_isa}
-#Obsoletes: %{real_name}-pecl-json < 1.2.2
-#%endif
-
 %if %{with_zip}
 Provides: %{real_name}-zip, %{real_name}-zip%{?_isa}
 Obsoletes: %{real_name}-pecl-zip < 1.11
@@ -359,9 +354,7 @@ Provides: %{real_name}-zts-devel = %{version}-%{release}
 Provides: %{name}-zts-devel%{?_isa} = %{version}-%{release}
 Provides: %{real_name}-zts-devel%{?_isa} = %{version}-%{release}
 %endif
-#%if ! %{php_bootstrap}
-#Requires: php-pecl-jsonc-devel%{?_isa}
-#%endif
+Requires: %{name}-pecl-jsonc-devel
 
 %description devel
 The php-devel package contains the files needed for building PHP
