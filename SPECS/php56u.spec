@@ -290,7 +290,9 @@ Provides: %{name}-sockets, %{name}-sockets%{?_isa}
 Provides: %{name}-spl, %{name}-spl%{?_isa}
 Provides: %{name}-standard = %{version}, %{name}-standard%{?_isa} = %{version}
 Provides: %{name}-tokenizer, %{name}-tokenizer%{?_isa}
-Requires: %{name}-pecl-jsonc
+%if ! %{php_bootstrap}
+Requires: %{name}-pecl-jsonc%{?_isa}
+%endif
 %if %{with_zip}
 Provides: %{name}-zip, %{name}-zip%{?_isa}
 Obsoletes: php-pecl-zip < 1.11
@@ -354,7 +356,9 @@ Provides: %{real_name}-zts-devel = %{version}-%{release}
 Provides: %{name}-zts-devel%{?_isa} = %{version}-%{release}
 Provides: %{real_name}-zts-devel%{?_isa} = %{version}-%{release}
 %endif
-Requires: %{name}-pecl-jsonc-devel
+%if ! %{php_bootstrap}
+Requires: %{name}-pecl-jsonc-devel%{?_isa}
+%endif
 
 %description devel
 The php-devel package contains the files needed for building PHP
