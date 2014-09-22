@@ -1561,7 +1561,7 @@ fi
 
 %files common -f files.common
 %doc CODING_STANDARDS CREDITS EXTENSIONS NEWS README*
-if 0%{?rhel} >= 7
+%if 0%{?rhel} >= 7
 %license LICENSE Zend/ZEND_* TSRM_LICENSE regex_COPYRIGHT
 %license libmagic_LICENSE
 %license phar_LICENSE
