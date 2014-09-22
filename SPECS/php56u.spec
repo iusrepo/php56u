@@ -1,6 +1,9 @@
 %global basever 5.6
 %global real_name php
 %global ius_suffix 56u
+%global phpfpm_user php-fpm
+%global phpfpm_group %{phpfpm_user}
+%global phpfpm_home %{_localstatedir}/lib/php-fpm
 
 %if 0%{?rhel} >= 7
 %global with_systemd 1
@@ -46,9 +49,6 @@
 %global isasuffix %nil
 %endif
 
-# needed at srpm build time, when httpd-devel not yet installed
-#%{!?_httpd_mmn:        %{expand: %%global _httpd_mmn        %%(cat %{_includedir}/httpd/.mmn 2>/dev/null || echo 0-0)}}
-
 # /usr/sbin/apsx with httpd < 2.4 and defined as /usr/bin/apxs with httpd >= 2.4
  %{!?_httpd_apxs:       %{expand: %%global _httpd_apxs       %%{_sbindir}/apxs}}
  %{!?_httpd_mmn:        %{expand: %%global _httpd_mmn        %%(cat %{_includedir}/httpd/.mmn 2>/dev/null || echo missing-httpd-devel)}}
@@ -80,7 +80,7 @@
 Summary: PHP scripting language for creating dynamic web sites
 Name: %{real_name}%{?ius_suffix}
 Version: 5.6.0
-Release: 1.ius%{?dist}
+Release: 2.ius%{?dist}
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
 # TSRM is licensed under BSD
@@ -240,8 +240,6 @@ Requires(preun):   chkconfig
 Requires(preun):   initscripts
 Requires(postun):  initscripts
 %endif
-Requires(pre): httpd
-Requires: httpd
 Provides: %{name}-fpm = %{version}-%{release}
 Provides: %{real_name}-fpm = %{version}-%{release}
 
@@ -1365,6 +1363,9 @@ install -m 700 -d $RPM_BUILD_ROOT%{_localstatedir}/lib/php/session
 install -m 700 -d $RPM_BUILD_ROOT%{_localstatedir}/lib/php/wsdlcache
 
 # PHP-FPM stuff
+install -m 755 -d $RPM_BUILD_ROOT%{_localstatedir}/lib/php-fpm
+install -m 700 -d $RPM_BUILD_ROOT%{_localstatedir}/lib/php-fpm/session
+install -m 700 -d $RPM_BUILD_ROOT%{_localstatedir}/lib/php-fpm/wsdlcache
 # Log
 install -m 755 -d $RPM_BUILD_ROOT%{_localstatedir}/log/php-fpm
 install -m 755 -d $RPM_BUILD_ROOT/run/php-fpm
@@ -1386,9 +1387,6 @@ install -m 755 -d $RPM_BUILD_ROOT%{_initrddir}
 install -m 755 %{SOURCE12} $RPM_BUILD_ROOT%{_initrddir}/php-fpm
 %endif
 
-
-#install -m 755 -d $RPM_BUILD_ROOT%{_unitdir}
-#install -m 644 %{SOURCE6} $RPM_BUILD_ROOT%{_unitdir}/
 # LogRotate
 install -m 755 -d $RPM_BUILD_ROOT%{_sysconfdir}/logrotate.d
 install -m 644 %{SOURCE7} $RPM_BUILD_ROOT%{_sysconfdir}/logrotate.d/php-fpm
@@ -1513,6 +1511,13 @@ rm -rf $RPM_BUILD_ROOT%{_libdir}/php/modules/*.a \
 # Remove irrelevant docs
 rm -f README.{Zeus,QNX,CVS-RULES}
 
+%pre fpm
+getent group %{phpfpm_group} > /dev/null || groupadd -r %{phpfpm_group}
+getent passwd %{phpfpm_user} > /dev/null || \
+    useradd -r -d %{phpfpm_home} -g %{phpfpm_group} \
+    -s /sbin/nologin -c "php-fpm" %{phpfpm_user}
+exit 0
+
 
 %post fpm
 %if 0%{?with_systemd}
@@ -1556,13 +1561,16 @@ fi
 
 %files common -f files.common
 %doc CODING_STANDARDS CREDITS EXTENSIONS NEWS README*
-#%license LICENSE Zend/ZEND_* TSRM_LICENSE regex_COPYRIGHT
-#%license libmagic_LICENSE
-#%license phar_LICENSE
+if 0%{?rhel} >= 7
+%license LICENSE Zend/ZEND_* TSRM_LICENSE regex_COPYRIGHT
+%license libmagic_LICENSE
+%license phar_LICENSE
+%else
 %doc LICENSE Zend/ZEND_* TSRM_LICENSE regex_COPYRIGHT
 %doc libmagic_LICENSE
 %doc phar_LICENSE
 %doc php.ini-*
+%endif
 %config(noreplace) %{_sysconfdir}/php.ini
 %dir %{_sysconfdir}/php.d
 %dir %{_libdir}/php
@@ -1600,10 +1608,14 @@ fi
 
 %files fpm
 %doc php-fpm.conf.default
-#%license fpm_LICENSE
+%if 0%{?rhel} >= 7
+%license fpm_LICENSE
+%else
 %doc fpm_LICENSE
-%attr(0770,root,apache) %dir %{_localstatedir}/lib/php/session
-%attr(0770,root,apache) %dir %{_localstatedir}/lib/php/wsdlcache
+%endif
+%dir %{_localstatedir}/lib/php-fpm
+%attr(0770,root,%{phpfpm_group}) %dir %{_localstatedir}/lib/php-fpm/session
+%attr(0770,root,%{phpfpm_group}) %dir %{_localstatedir}/lib/php-fpm/wsdlcache
 %config(noreplace) %{_httpd_confdir}/php.conf
 %config(noreplace) %{_sysconfdir}/php-fpm.conf
 %config(noreplace) %{_sysconfdir}/php-fpm.d/www.conf
@@ -1617,10 +1629,8 @@ fi
 %{_initrddir}/php-fpm
 %endif
 %{_sbindir}/php-fpm
-#%dir %{_sysconfdir}/systemd/system/php-fpm.service.d
 %dir %{_sysconfdir}/php-fpm.d
-# log owned by apache for log
-%attr(770,apache,root) %dir %{_localstatedir}/log/php-fpm
+%attr(770,%{phpfpm_user},root) %dir %{_localstatedir}/log/php-fpm
 %dir /run/php-fpm
 %{_mandir}/man8/php-fpm.8*
 %dir %{_datadir}/fpm
@@ -1653,23 +1663,32 @@ fi
 %files xml -f files.xml
 %files xmlrpc -f files.xmlrpc
 %files mbstring -f files.mbstring
-#%license libmbfl_LICENSE
-#%license oniguruma_COPYING
-#%license ucgendat_LICENSE
+%if 0%{?rhel} >= 7
+%license libmbfl_LICENSE
+%license oniguruma_COPYING
+%license ucgendat_LICENSE
+%else
 %doc libmbfl_LICENSE
 %doc oniguruma_COPYING
 %doc ucgendat_LICENSE
+%endif
 %files gd -f files.gd
 %if ! %{with_libgd}
-#%license libgd_README
-#%license libgd_COPYING
+%if 0%{?rhel} >= 7
+%license libgd_README
+%license libgd_COPYING
+%else
 %doc libgd_README
 %doc libgd_COPYING
 %endif
+%endif
 %files soap -f files.soap
 %files bcmath -f files.bcmath
-#%license libbcmath_COPYING
+%if 0%{?rhel} >= 7
+%license libbcmath_COPYING
+%else
 %doc libbcmath_COPYING
+%endif
 %files gmp -f files.gmp
 %files dba -f files.dba
 %files pdo -f files.pdo
@@ -1689,6 +1708,10 @@ fi
 
 
 %changelog
+* Fri Sep 19 2014 Ben Harper <ben.harper@rackspace.com> - 5.6.0-2.ius
+- adding php-fpm user
+- clean up %license files
+
 * Wed Sep 10 2014 Ben Harper <ben.harper@rackspace.com> - 5.6.0-1.ius
 - change requirements from httpd-filesystem to just httpd
 - remove proxy setting from php.conf that are not available in Apache 2.4.6
