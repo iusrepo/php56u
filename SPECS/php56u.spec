@@ -80,7 +80,7 @@
 Summary: PHP scripting language for creating dynamic web sites
 Name: %{real_name}%{?ius_suffix}
 Version: 5.6.1
-Release: 1.ius%{?dist}
+Release: 2.ius%{?dist}
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
 # TSRM is licensed under BSD
@@ -1499,7 +1499,11 @@ sed -e "s/@PHP_APIVER@/%{apiver}%{isasuffix}/" \
 %endif
     < %{SOURCE3} > macros.php
 install -m 644 -D macros.php \
+%if 0%{?rhel} >= 7
            $RPM_BUILD_ROOT%{_rpmconfigdir}/macros.d/macros.php
+%else
+           $RPM_BUILD_ROOT%{_sysconfdir}/rpm/macros.php
+%endif
 
 # Remove unpackaged files
 rm -rf $RPM_BUILD_ROOT%{_libdir}/php/modules/*.a \
@@ -1708,6 +1712,9 @@ fi
 
 
 %changelog
+* Wed Oct 15 2014 Carl George <carl.george@rackspace.com> - 5.6.1-2.ius
+- Fix macros file location on el6
+
 * Fri Oct 03 2014 Ben Harper <ben.harper@rackspace.com> - 5.6.1-1.ius
 - Latest upstream source
 
