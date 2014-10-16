@@ -19,7 +19,7 @@
 %global opcachever  7.0.4-dev
 
 # Use for first build of PHP (before pecl/zip and pecl/jsonc)
-%global php_bootstrap   0
+%global php_bootstrap   1
 
 # Adds -z now to the linker flags
 %global _hardened_build 1
@@ -1720,6 +1720,7 @@ fi
 %changelog
 * Wed Oct 15 2014 Carl George <carl.george@rackspace.com> - 5.6.1-2.ius
 - Fix macros file location on el6
+- Bootstrap without jsonc
 
 * Fri Oct 03 2014 Ben Harper <ben.harper@rackspace.com> - 5.6.1-1.ius
 - Latest upstream source
