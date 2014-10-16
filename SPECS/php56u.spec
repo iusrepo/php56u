@@ -982,7 +982,9 @@ find . -name \*.[ch] -exec chmod 644 {} \;
 chmod 644 README.*
 
 # php-fpm configuration files for tmpfiles.d
+%if 0%{?with_systemd}
 echo "d /run/php-fpm 755 root root" >php-fpm.tmpfiles
+%endif
 
 # Some extensions have their own configuration file
 cp %{SOURCE50} 10-opcache.ini
@@ -1627,8 +1629,8 @@ fi
 %config(noreplace) %{_sysconfdir}/php-fpm.d/www.conf
 %config(noreplace) %{_sysconfdir}/logrotate.d/php-fpm
 %config(noreplace) %{_sysconfdir}/sysconfig/php-fpm
-%{_prefix}/lib/tmpfiles.d/php-fpm.conf
 %if 0%{?with_systemd}
+%{_prefix}/lib/tmpfiles.d/php-fpm.conf
 %{_unitdir}/php-fpm.service
 %dir %{_sysconfdir}/systemd/system/php-fpm.service.d
 %else
