@@ -19,7 +19,7 @@
 %global opcachever  7.0.4-dev
 
 # Use for first build of PHP (before pecl/zip and pecl/jsonc)
-%global php_bootstrap   1
+%global php_bootstrap   0
 
 # Adds -z now to the linker flags
 %global _hardened_build 1
@@ -80,7 +80,7 @@
 Summary: PHP scripting language for creating dynamic web sites
 Name: %{real_name}%{?ius_suffix}
 Version: 5.6.1
-Release: 2.ius%{?dist}
+Release: 3.ius%{?dist}
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
 # TSRM is licensed under BSD
@@ -1720,6 +1720,9 @@ fi
 
 
 %changelog
+* Thu Oct 16 2014 Carl George <carl.george@rackspace.com> - 5.6.1-3.ius
+- Unset bootstrap flag
+
 * Wed Oct 15 2014 Carl George <carl.george@rackspace.com> - 5.6.1-2.ius
 - Fix macros file location on el6
 - Bootstrap without jsonc
