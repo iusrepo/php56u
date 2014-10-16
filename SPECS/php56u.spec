@@ -1653,7 +1653,11 @@ fi
 %{_mandir}/man1/zts-phpize.1*
 %endif
 %{_mandir}/man1/php-config.1*
+%if 0%{?rhel} >= 7
 %{_rpmconfigdir}/macros.d/macros.php
+%else
+%{_sysconfdir}/rpm/macros.php
+%endif
 
 %files embedded
 %{_libdir}/libphp5.so
