@@ -22,4 +22,4 @@ tar tf php-$1.tar.xz | sort >$old
 tar tf php-$1-strip.tar.xz | sort >$new
 diff $old $new
 
-rm -f $old $new
+rm -rf $old $new php-$1 php-$1.tar.xz
