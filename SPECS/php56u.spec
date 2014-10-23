@@ -80,7 +80,7 @@
 Summary: PHP scripting language for creating dynamic web sites
 Name: %{real_name}%{?ius_suffix}
 Version: 5.6.2
-Release: 1.ius%{?dist}
+Release: 2.ius%{?dist}
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
 # TSRM is licensed under BSD
@@ -1531,7 +1531,7 @@ exit 0
 %if 0%{?with_systemd}
 %systemd_post php-fpm.service
 %else
-chkconfig --add %{real_name}
+chkconfig --add php-fpm
 %endif
 
 %preun fpm
@@ -1539,8 +1539,8 @@ chkconfig --add %{real_name}
 %systemd_preun php-fpm.service
 %else
 if [ $1 -eq 0 ] ; then
-service %{real_name} stop &> /dev/null
-chkconfig --del %{real_name} &> /dev/null
+service php-fpm stop &> /dev/null
+chkconfig --del php-fpm &> /dev/null
 fi
 %endif
 
@@ -1549,7 +1549,7 @@ fi
 %systemd_postun_with_restart php-fpm.service
 %else
 if [ "$1" -ge "1" ] ; then
-service %{real_name} condrestart >/dev/null 2>&1 || :
+service php-fpm condrestart >/dev/null 2>&1 || :
 fi
 %endif
 
@@ -1720,6 +1720,9 @@ fi
 
 
 %changelog
+* Thu Oct 23 2014 Ben Harper <ben.harper@rackspace.com> - 5.6.2-2.ius
+- fix %pre and %post for php-fpm for el < 7
+
 * Fri Oct 17 2014 Carl George <carl.george@rackspace.com> - 5.6.2-1.ius
 - Latest upstream
 
