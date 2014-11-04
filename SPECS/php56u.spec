@@ -1560,27 +1560,27 @@ exit 0
 
 %post fpm
 %if 0%{?with_systemd}
-%systemd_post php-fpm.service
+%systemd_post %{real_name}-fpm.service
 %else
-chkconfig --add php-fpm
+chkconfig --add %{real_name}-fpm
 %endif
 
 %preun fpm
 %if 0%{?with_systemd}
-%systemd_preun php-fpm.service
+%systemd_preun %{real_name}-fpm.service
 %else
 if [ $1 -eq 0 ] ; then
-service php-fpm stop &> /dev/null
-chkconfig --del php-fpm &> /dev/null
+service %{real_name}-fpm stop &> /dev/null
+chkconfig --del %{real_name}-fpm &> /dev/null
 fi
 %endif
 
 %postun fpm
 %if 0%{?with_systemd}
-%systemd_postun_with_restart php-fpm.service
+%systemd_postun_with_restart %{real_name}-fpm.service
 %else
 if [ "$1" -ge "1" ] ; then
-service php-fpm condrestart >/dev/null 2>&1 || :
+service %{real_name}-fpm condrestart >/dev/null 2>&1 || :
 fi
 %endif
 
