@@ -295,7 +295,7 @@ Requires: %{name}-pecl-jsonc%{?_isa}
 %endif
 %if %{with_zip}
 Provides: %{name}-zip, %{name}-zip%{?_isa}
-Obsoletes: php-pecl-zip < 1.11
+Obsoletes: %{name}-pecl-zip < 1.11
 %endif
 Provides: %{name}-zlib, %{name}-zlib%{?_isa}
 
@@ -335,9 +335,9 @@ Obsoletes: %{real_name}-pecl-zip < 1.11
 %endif
 Provides: %{real_name}-zlib, %{real_name}-zlib%{?_isa}
 
-Obsoletes: php-pecl-phar < 1.2.4
-Obsoletes: php-pecl-Fileinfo < 1.0.5
-Obsoletes: php-mhash < 5.3.0
+Obsoletes: %{name}-pecl-phar < 1.2.4
+Obsoletes: %{name}-pecl-Fileinfo < 1.0.5
+Obsoletes: %{name}-mhash < 5.3.0
 Conflicts: %{real_name}-common < %{base_ver}
 
 %description common
@@ -372,7 +372,7 @@ Summary:   The Zend OPcache
 Group:     Development/Languages
 License:   PHP
 Requires:  %{name}-common = %{version}-%{release}
-Obsoletes: php-pecl-zendopcache
+Obsoletes: %{name}-pecl-zendopcache
 Provides:  %{name}-pecl-zendopcache = %{opcachever}
 Provides:  %{real_name}-pecl-zendopcache = %{opcachever}
 Provides:  %{name}-pecl-zendopcache%{?_isa} = %{opcachever}
