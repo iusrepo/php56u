@@ -170,6 +170,7 @@ Requires: httpd-mmn = %{_httpd_mmn}
 Provides: mod_%{real_name} = %{version}-%{release}
 Provides: mod_%{name} = %{version}-%{release}
 Requires: %{name}-common%{?_isa} = %{version}-%{release}
+Provides: %{real_name} = %{version}-%{release}
 # For backwards-compatibility, require php-cli for the time being:
 Requires: %{name}-cli%{?_isa} = %{version}-%{release}
 # To ensure correct /var/lib/php/session ownership:
