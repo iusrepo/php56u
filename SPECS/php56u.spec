@@ -79,8 +79,8 @@
 
 Summary: PHP scripting language for creating dynamic web sites
 Name: %{real_name}%{?ius_suffix}
-Version: 5.6.2
-Release: 3.ius%{?dist}
+Version: 5.6.3
+Release: 1.ius%{?dist}
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
 # TSRM is licensed under BSD
@@ -1752,6 +1752,9 @@ fi
 
 
 %changelog
+* Fri Nov 14 2014 Ben Harper <ben.harper@rackspace.com> - 5.6.3-1.ius
+- Latest upstream
+
 * Tue Nov 04 2014 Carl George <carl.george@rackspace.com> - 5.6.2-3.ius
 - Provide stock php package (mod_php)
 - Conflict with stock php packages (all)
