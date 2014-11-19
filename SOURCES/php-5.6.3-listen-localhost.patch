@@ -1,0 +1,33 @@
+--- sapi/fpm/fpm/fpm_sockets.c	2014-11-12 07:52:21.000000000 -0600
++++ sapi/fpm/fpm/fpm_sockets.c.patch	2014-11-19 11:27:16.707603949 -0600
+@@ -263,13 +263,23 @@
+ 		return -1;
+ 	}
+ 
+-	// strip brackets from address for getaddrinfo
+-	if (addr != NULL) {
+-		addr_len = strlen(addr);
+-		if (addr[0] == '[' && addr[addr_len - 1] == ']') {
+-			addr[addr_len - 1] = '\0';
+-			addr++;
+-		}
++       if (!addr) {
++               /* no address: default documented behavior, all IPv4 addresses */
++               struct sockaddr_in sa_in;
++
++               memset(&sa_in, 0, sizeof(sa_in));
++               sa_in.sin_family = AF_INET;
++               sa_in.sin_port = htons(port);
++               sa_in.sin_addr.s_addr = htonl(INADDR_ANY);
++               free(dup_address);
++               return fpm_sockets_get_listening_socket(wp, (struct sockaddr *) &sa_in, sizeof(struct sockaddr_in));
++       }
++
++       /* strip brackets from address for getaddrinfo */
++       addr_len = strlen(addr);
++       if (addr[0] == '[' && addr[addr_len - 1] == ']') {
++               addr[addr_len - 1] = '\0';
++               addr++;
+ 	}
+ 
+ 	memset(&hints, 0, sizeof hints);

@@ -80,7 +80,7 @@
 Summary: PHP scripting language for creating dynamic web sites
 Name: %{real_name}%{?ius_suffix}
 Version: 5.6.3
-Release: 1.ius%{?dist}
+Release: 2.ius%{?dist}
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
 # TSRM is licensed under BSD
@@ -140,6 +140,15 @@ Patch47: php-5.4.9-phpinfo.patch
 Patch301: php-5.6.0-oldpcre.patch
 # see https://bugzilla.redhat.com/971416
 Patch302: php-5.6.0-noNO.patch
+
+#https://bugs.php.net/bug.php?id=68421
+Patch303: php-5.6.3-access.format.patch
+
+#https://bugs.php.net/bug.php?id=68420
+Patch304: php-5.6.3-listen-localhost.patch
+
+#https://bugs.php.net/bug.php?id=68423
+Patch305: php-5.6.3-load-all-pools.patch
 
 
 BuildRequires: bzip2-devel, curl-devel >= 7.9
@@ -927,6 +936,9 @@ httpd -V  | grep -q 'threaded:.*yes' && exit 1
 %patch301 -p1 -b .pcre834
 %endif
 %patch302 -p0 -b .971416
+%patch303 -p0 -b .68421
+%patch304 -p0 -b .68420
+%patch305 -p0 -b .68423
 
 
 # Prevent %%doc confusion over LICENSE files
@@ -1752,6 +1764,9 @@ fi
 
 
 %changelog
+* Wed Nov 19 2014 Ben Harper <ben.harper@rackspace.com> - 5.6.3-2.ius
+- add Patch303, Patch304 and Patch305
+
 * Fri Nov 14 2014 Ben Harper <ben.harper@rackspace.com> - 5.6.3-1.ius
 - Latest upstream
 

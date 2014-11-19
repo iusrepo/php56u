@@ -1,0 +1,52 @@
+--- sapi/fpm/fpm/fastcgi.c	2014-11-12 07:52:21.000000000 -0600
++++ sapi/fpm/fpm/fastcgi.c.patch	2014-11-19 10:46:32.873603949 -0600
+@@ -137,6 +137,7 @@
+ 	struct sockaddr     sa;
+ 	struct sockaddr_un  sa_unix;
+ 	struct sockaddr_in  sa_inet;
++        struct sockaddr_in6 sa_inet6;
+ } sa_t;
+ 
+ static HashTable fcgi_mgmt_vars;
+@@ -1094,12 +1095,17 @@
+ 	pefree(*var, 1);
+ }
+ 
+-char *fcgi_get_last_client_ip() /* {{{ */
++const char *fcgi_get_last_client_ip() /* {{{ */
+ {
++        static char str[INET6_ADDRSTRLEN];
++
+ 	if (client_sa.sa.sa_family == AF_UNIX) {
+ 		return NULL;
+ 	}
+-	return inet_ntoa(client_sa.sa_inet.sin_addr);
++       if (client_sa.sa.sa_family == AF_INET) {
++               return inet_ntop(client_sa.sa.sa_family, &client_sa.sa_inet.sin_addr, str, INET6_ADDRSTRLEN);
++       }
++       return inet_ntop(client_sa.sa.sa_family, &client_sa.sa_inet6.sin6_addr, str, INET6_ADDRSTRLEN);
+ }
+ /* }}} */
+ /*
+--- sapi/fpm/fpm/fastcgi.h	2014-11-12 07:52:21.000000000 -0600
++++ sapi/fpm/fpm/fastcgi.h.patch	2014-11-19 10:53:02.765603949 -0600
+@@ -133,7 +133,7 @@
+ void fcgi_set_mgmt_var(const char * name, size_t name_len, const char * value, size_t value_len);
+ void fcgi_free_mgmt_var_cb(void * ptr);
+ 
+-char *fcgi_get_last_client_ip();
++const char *fcgi_get_last_client_ip();
+ 
+ /*
+  * Local variables:
+--- sapi/fpm/fpm/fpm_log.c	2014-11-12 07:52:21.000000000 -0600
++++ sapi/fpm/fpm/fpm_log.c.patch	2014-11-19 10:56:40.415603949 -0600
+@@ -367,7 +367,7 @@
+ 
+ 				case 'R': /* remote IP address */
+ 					if (!test) {
+-						char *tmp = fcgi_get_last_client_ip();
++                                                const char *tmp = fcgi_get_last_client_ip();
+ 						len2 = snprintf(b, FPM_LOG_BUFFER - len, "%s", tmp ? tmp : "-");
+ 					}
+ 					break;
