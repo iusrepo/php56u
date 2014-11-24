@@ -80,7 +80,7 @@
 Summary: PHP scripting language for creating dynamic web sites
 Name: %{real_name}%{?ius_suffix}
 Version: 5.6.3
-Release: 2.ius%{?dist}
+Release: 3.ius%{?dist}
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
 # TSRM is licensed under BSD
@@ -133,6 +133,14 @@ Patch47: php-5.4.9-phpinfo.patch
 
 # Upstream fixes (100+)
 
+#https://bugs.php.net/bug.php?id=68423
+Patch101: php-5.6.3-load-all-pools.patch
+
+#https://bugs.php.net/bug.php?id=68421
+Patch102: php-5.6.3-access.format.patch
+
+#https://bugs.php.net/bug.php?id=68420
+Patch103: php-5.6.3-listen-localhost.patch
 # Security fixes (200+)
 
 # Fixes for tests (300+)
@@ -140,15 +148,6 @@ Patch47: php-5.4.9-phpinfo.patch
 Patch301: php-5.6.0-oldpcre.patch
 # see https://bugzilla.redhat.com/971416
 Patch302: php-5.6.0-noNO.patch
-
-#https://bugs.php.net/bug.php?id=68421
-Patch303: php-5.6.3-access.format.patch
-
-#https://bugs.php.net/bug.php?id=68420
-Patch304: php-5.6.3-listen-localhost.patch
-
-#https://bugs.php.net/bug.php?id=68423
-Patch305: php-5.6.3-load-all-pools.patch
 
 
 BuildRequires: bzip2-devel, curl-devel >= 7.9
@@ -927,6 +926,9 @@ httpd -V  | grep -q 'threaded:.*yes' && exit 1
 %patch47 -p1 -b .phpinfo
 
 # upstream patches
+%patch101 -p1 -b .68423
+%patch102 -p1 -b .68421
+%patch103 -p1 -b .68420
 
 # security patches
 
@@ -936,10 +938,6 @@ httpd -V  | grep -q 'threaded:.*yes' && exit 1
 %patch301 -p1 -b .pcre834
 %endif
 %patch302 -p0 -b .971416
-%patch303 -p0 -b .68421
-%patch304 -p0 -b .68420
-%patch305 -p0 -b .68423
-
 
 # Prevent %%doc confusion over LICENSE files
 cp Zend/LICENSE Zend/ZEND_LICENSE
@@ -1764,6 +1762,10 @@ fi
 
 
 %changelog
+* Mon Nov 24 2014 Ben Harper <ben.harper@rackspace.com> - 5.6.3-3.ius
+- removed Patch303, Patch304 and Patch305 as they were incomplete and missing headers
+- added Patch101, Patch102 and Patch103 complete with headers and better numbering
+
 * Wed Nov 19 2014 Ben Harper <ben.harper@rackspace.com> - 5.6.3-2.ius
 - add Patch303, Patch304 and Patch305
 
