@@ -80,7 +80,7 @@
 Summary: PHP scripting language for creating dynamic web sites
 Name: %{real_name}%{?ius_suffix}
 Version: 5.6.3
-Release: 3.ius%{?dist}
+Release: 4.ius%{?dist}
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
 # TSRM is licensed under BSD
@@ -201,15 +201,15 @@ which adds support for the PHP language to Apache HTTP Server.
 %package cli
 Group: Development/Languages
 Summary: Command-line interface for PHP
-Requires: %{name}-common = %{version}-%{release}
+Requires: %{name}-common%{?_isa} = %{version}-%{release}
 Provides: %{name}-cgi = %{version}-%{release}, %{name}-cgi%{?_isa} = %{version}-%{release}
 Provides: %{real_name}-cgi = %{version}-%{release}, %{real_name}-cgi%{?_isa} = %{version}-%{release}
 Provides: %{real_name}-pcntl, %{real_name}-pcntl%{?_isa}
 Provides: %{name}-pcntl, %{name}-pcntl%{?_isa}
 Provides: %{real_name}-readline, %{real_name}-readline%{?_isa}
 Provides: %{name}-readline, %{name}-readline%{?_isa}
-Provides: %{name}-cli = %{version}-%{release}
-Provides: %{real_name}-cli = %{version}-%{release}
+Provides: %{name}-cli = %{version}-%{release}, %{name}-cli%{?_isa} = %{version}-%{release}
+Provides: %{real_name}-cli = %{version}-%{release}, %{real_name}-cli%{?_isa} = %{version}-%{release}
 Conflicts: %{real_name}-cli < %{base_ver}
 
 %description cli
@@ -268,8 +268,8 @@ Summary: Common files for PHP
 # main/snprintf.c, main/spprintf.c and main/rfc1867.c are ASL 1.0
 License: PHP and BSD and ASL 1.0
 # ABI/API check - Arch specific
-Provides: %{name}-common = %{version}-%{release}
-Provides: %{real_name}-common = %{version}-%{release}
+Provides: %{name}-common = %{version}-%{release}, %{name}-common%{?_isa} = %{version}-%{release}
+Provides: %{real_name}-common = %{version}-%{release}, %{real_name}-common%{?_isa} = %{version}-%{release}
 Provides: %{name}(api) = %{apiver}%{isasuffix}
 Provides: %{name}(zend-abi) = %{zendver}%{isasuffix}
 Provides: %{name}(language) = %{version}, %{name}(language)%{?_isa} = %{version}
@@ -1762,6 +1762,9 @@ fi
 
 
 %changelog
+* Thu Dec 04 2014 Carl George <carl.george@rackspace.com> - 5.6.3-4.ius
+- Provide php-cli%%{?_isa} and php-common%%{?_isa}
+
 * Mon Nov 24 2014 Ben Harper <ben.harper@rackspace.com> - 5.6.3-3.ius
 - removed Patch303, Patch304 and Patch305 as they were incomplete and missing headers
 - added Patch101, Patch102 and Patch103 complete with headers and better numbering
