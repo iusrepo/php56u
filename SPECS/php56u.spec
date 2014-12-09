@@ -80,7 +80,7 @@
 Summary: PHP scripting language for creating dynamic web sites
 Name: %{real_name}%{?ius_suffix}
 Version: 5.6.3
-Release: 4.ius%{?dist}
+Release: 5.ius%{?dist}
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
 # TSRM is licensed under BSD
@@ -1434,11 +1434,23 @@ install -m 700 -d $RPM_BUILD_ROOT%{_localstatedir}/lib/php-fpm/session
 install -m 700 -d $RPM_BUILD_ROOT%{_localstatedir}/lib/php-fpm/wsdlcache
 # Log
 install -m 755 -d $RPM_BUILD_ROOT%{_localstatedir}/log/php-fpm
+
+%if 0%{?rhel} < 7
+install -m 755 -d $RPM_BUILD_ROOT%{_localstatedir}/run/php-fpm
+%else
 install -m 755 -d $RPM_BUILD_ROOT/run/php-fpm
+%endif
+
 # Config
 install -m 755 -d $RPM_BUILD_ROOT%{_sysconfdir}/php-fpm.d
+
 install -m 644 %{SOURCE4} $RPM_BUILD_ROOT%{_sysconfdir}/php-fpm.conf
+%if 0%{?rhel} < 7
+sed -e 's#/run/php-fpm/php-fpm.pid#/var/run/php-fpm/php-fpm.pid#' \
+    -i $RPM_BUILD_ROOT%{_sysconfdir}/php-fpm.conf
+%endif
 install -m 644 %{SOURCE5} $RPM_BUILD_ROOT%{_sysconfdir}/php-fpm.d/www.conf
+
 mv $RPM_BUILD_ROOT%{_sysconfdir}/php-fpm.conf.default .
 # tmpfiles.d
 %if 0%{?with_systemd}
@@ -1458,6 +1470,10 @@ install -m 755 %{SOURCE12} $RPM_BUILD_ROOT%{_initrddir}/php-fpm
 # LogRotate
 install -m 755 -d $RPM_BUILD_ROOT%{_sysconfdir}/logrotate.d
 install -m 644 %{SOURCE7} $RPM_BUILD_ROOT%{_sysconfdir}/logrotate.d/php-fpm
+%if 0%{?rhel} < 7
+sed -e 's#/run/php-fpm/php-fpm.pid#/var/run/php-fpm/php-fpm.pid#' \
+    -i $RPM_BUILD_ROOT%{_sysconfdir}/logrotate.d/php-fpm
+%endif
 # Environment file
 install -m 755 -d $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig
 install -m 644 %{SOURCE8} $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig/php-fpm
@@ -1681,9 +1697,11 @@ fi
 %files fpm
 %doc php-fpm.conf.default
 %if 0%{?rhel} >= 7
+%dir /run/php-fpm
 %license fpm_LICENSE
 %else
 %doc fpm_LICENSE
+%dir %{_localstatedir}/run/php-fpm
 %endif
 %dir %{_localstatedir}/lib/php-fpm
 %attr(0770,root,%{phpfpm_group}) %dir %{_localstatedir}/lib/php-fpm/session
@@ -1703,10 +1721,10 @@ fi
 %{_sbindir}/php-fpm
 %dir %{_sysconfdir}/php-fpm.d
 %attr(770,%{phpfpm_user},root) %dir %{_localstatedir}/log/php-fpm
-%dir /run/php-fpm
 %{_mandir}/man8/php-fpm.8*
 %dir %{_datadir}/fpm
 %{_datadir}/fpm/status.html
+
 
 %files devel
 %{_bindir}/php-config
@@ -1784,6 +1802,10 @@ fi
 
 
 %changelog
+* Mon Dec 08 2014 Ben Harper <ben.harper@rackspace.com> - 5.6.3-5.ius
+- add missing provides
+- fix location of fpm pid files for el6
+
 * Thu Dec 04 2014 Carl George <carl.george@rackspace.com> - 5.6.3-4.ius
 - Provide php-cli%%{?_isa} and php-common%%{?_isa}
 
