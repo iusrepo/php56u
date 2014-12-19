@@ -79,8 +79,8 @@
 
 Summary: PHP scripting language for creating dynamic web sites
 Name: %{real_name}%{?ius_suffix}
-Version: 5.6.3
-Release: 5.ius%{?dist}
+Version: 5.6.4
+Release: 1.ius%{?dist}
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
 # TSRM is licensed under BSD
@@ -1802,6 +1802,9 @@ fi
 
 
 %changelog
+* Fri Dec 19 2014 Carl George <carl.george@rackspace.com> - 5.6.4-1.ius
+- Latest upstream
+
 * Mon Dec 08 2014 Ben Harper <ben.harper@rackspace.com> - 5.6.3-5.ius
 - add missing provides
 - fix location of fpm pid files for el6
