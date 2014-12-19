@@ -79,8 +79,8 @@
 
 Summary: PHP scripting language for creating dynamic web sites
 Name: %{real_name}%{?ius_suffix}
-Version: 5.6.3
-Release: 5.ius%{?dist}
+Version: 5.6.4
+Release: 1.ius%{?dist}
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
 # TSRM is licensed under BSD
@@ -133,14 +133,15 @@ Patch47: php-5.4.9-phpinfo.patch
 
 # Upstream fixes (100+)
 
-#https://bugs.php.net/bug.php?id=68423
-Patch101: php-5.6.3-load-all-pools.patch
+# https://bugs.php.net/bug.php?id=68423
+#Patch101: php-5.6.3-load-all-pools.patch
 
-#https://bugs.php.net/bug.php?id=68421
-Patch102: php-5.6.3-access.format.patch
+# https://bugs.php.net/bug.php?id=68421
+#Patch102: php-5.6.3-access.format.patch
 
-#https://bugs.php.net/bug.php?id=68420
-Patch103: php-5.6.3-listen-localhost.patch
+# https://bugs.php.net/bug.php?id=68420
+#Patch103: php-5.6.3-listen-localhost.patch
+
 # Security fixes (200+)
 
 # Fixes for tests (300+)
@@ -948,9 +949,9 @@ httpd -V  | grep -q 'threaded:.*yes' && exit 1
 %patch47 -p1 -b .phpinfo
 
 # upstream patches
-%patch101 -p1 -b .68423
-%patch102 -p1 -b .68421
-%patch103 -p1 -b .68420
+# patch101: resolved upstream 5.6.4
+# patch102: resolved upstream 5.6.4
+# patch103: resolved upstream 5.6.4
 
 # security patches
 
@@ -1802,6 +1803,10 @@ fi
 
 
 %changelog
+* Fri Dec 19 2014 Carl George <carl.george@rackspace.com> - 5.6.4-1.ius
+- Latest upstream
+- Patch101, Patch102, and Patch103 merged upstream
+
 * Mon Dec 08 2014 Ben Harper <ben.harper@rackspace.com> - 5.6.3-5.ius
 - add missing provides
 - fix location of fpm pid files for el6
