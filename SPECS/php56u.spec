@@ -152,8 +152,12 @@ Patch302: php-5.6.0-noNO.patch
 
 
 BuildRequires: bzip2-devel, curl-devel >= 7.9
-BuildRequires: httpd-devel >= 2.0.46-1, pam-devel
-BuildRequires: httpd
+BuildRequires: pam-devel
+%if 0%{?rhel} < 7
+BuildRequires: httpd-devel < 2.4
+%else
+BuildRequires: httpd-devel
+%endif
 BuildRequires: libstdc++-devel, openssl-devel
 BuildRequires: sqlite-devel >= 3.6.0
 BuildRequires: zlib-devel, smtpdaemon, libedit-devel
@@ -183,7 +187,7 @@ Provides: %{real_name} = %{version}-%{release}
 # For backwards-compatibility, require php-cli for the time being:
 Requires: %{name}-cli%{?_isa} = %{version}-%{release}
 # To ensure correct /var/lib/php/session ownership:
-Requires(pre): httpd
+Requires(pre): httpd-mmn = %{_httpd_mmn}
 
 Conflicts: %{real_name} < %{base_ver}
 Conflicts: php51, php52, php53u, php54, php55u
