@@ -80,7 +80,7 @@
 Summary: PHP scripting language for creating dynamic web sites
 Name: %{real_name}%{?ius_suffix}
 Version: 5.6.4
-Release: 1.ius%{?dist}
+Release: 2.ius%{?dist}
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
 # TSRM is licensed under BSD
@@ -1807,6 +1807,9 @@ fi
 
 
 %changelog
+* Wed Jan 14 2015 Carl George <carl.george@rackspace.com> - 5.6.4-2.ius
+- Update fpm pool config file to use php-fpm user
+
 * Fri Dec 19 2014 Carl George <carl.george@rackspace.com> - 5.6.4-1.ius
 - Latest upstream
 - Patch101, Patch102, and Patch103 merged upstream
