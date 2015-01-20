@@ -585,9 +585,9 @@ Summary: A module for PHP applications that use the SOAP protocol
 Group: Development/Languages
 # All files licensed under PHP version 3.01
 License: PHP
-Provides: config(%{real_name}-soup) = %{version}-%{release}
+Provides: config(%{real_name}-soap) = %{version}-%{release}
 Provides: %{name}-soap = %{version}-%{release}
-Provides: %{real_name}-soap = %{version}-%{release}, %{real_name}-soup%{?_isa} = %{version}-%{release}
+Provides: %{real_name}-soap = %{version}-%{release}, %{real_name}-soap%{?_isa} = %{version}-%{release}
 Requires: %{name}-common = %{version}-%{release}
 BuildRequires: libxml2-devel
 Conflicts: %{real_name}-soap < %{base_ver}
