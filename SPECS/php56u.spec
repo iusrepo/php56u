@@ -7,8 +7,10 @@
 
 %if 0%{?rhel} >= 7
 %global with_systemd 1
+%global _macrosdir %{_rpmconfigdir}/macros.d
 %else
 %global with_systemd 0
+%global _macrosdir %{_sysconfdir}/rpm
 %endif
 
 # API/ABI check
@@ -1557,11 +1559,7 @@ sed -e "s/@PHP_APIVER@/%{apiver}%{isasuffix}/" \
 %endif
     < %{SOURCE3} > macros.php
 install -m 644 -D macros.php \
-%if 0%{?rhel} >= 7
-           $RPM_BUILD_ROOT%{_rpmconfigdir}/macros.d/macros.php
-%else
-           $RPM_BUILD_ROOT%{_sysconfdir}/rpm/macros.php
-%endif
+           $RPM_BUILD_ROOT%{_macrosdir}/macros.php
 
 # Remove unpackaged files
 rm -rf $RPM_BUILD_ROOT%{_libdir}/php/modules/*.a \
@@ -1713,11 +1711,7 @@ fi
 %{_mandir}/man1/zts-phpize.1*
 %endif
 %{_mandir}/man1/php-config.1*
-%if 0%{?rhel} >= 7
-%{_rpmconfigdir}/macros.d/macros.php
-%else
-%{_sysconfdir}/rpm/macros.php
-%endif
+%{_macrosdir}/macros.php
 
 %files embedded
 %{_libdir}/libphp5.so
