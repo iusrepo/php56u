@@ -178,10 +178,8 @@ BuildRequires: systemtap-sdt-devel
 
 %if %{with_zts}
 Obsoletes: %{name}-zts < 5.3.7
-Provides: %{name}-zts = %{version}-%{release}
-Provides: %{real_name}-zts = %{version}-%{release}
-Provides: %{name}-zts%{?_isa} = %{version}-%{release}
-Provides: %{real_name}-zts%{?_isa} = %{version}-%{release}
+Provides: %{name}-zts = %{version}-%{release}, %{name}-zts%{?_isa} = %{version}-%{release}
+Provides: %{real_name}-zts = %{version}-%{release}, %{real_name}-zts%{?_isa} = %{version}-%{release}
 %endif
 
 Requires: httpd-mmn = %{_httpd_mmn}
@@ -214,10 +212,10 @@ Summary: Command-line interface for PHP
 Requires: %{name}-common%{?_isa} = %{version}-%{release}
 Provides: %{name}-cgi = %{version}-%{release}, %{name}-cgi%{?_isa} = %{version}-%{release}
 Provides: %{real_name}-cgi = %{version}-%{release}, %{real_name}-cgi%{?_isa} = %{version}-%{release}
-Provides: %{real_name}-pcntl, %{real_name}-pcntl%{?_isa}
 Provides: %{name}-pcntl, %{name}-pcntl%{?_isa}
-Provides: %{real_name}-readline, %{real_name}-readline%{?_isa}
+Provides: %{real_name}-pcntl, %{real_name}-pcntl%{?_isa}
 Provides: %{name}-readline, %{name}-readline%{?_isa}
+Provides: %{real_name}-readline, %{real_name}-readline%{?_isa}
 Provides: %{real_name}-cli = %{version}-%{release}, %{real_name}-cli%{?_isa} = %{version}-%{release}
 Conflicts: %{real_name}-cli < %{base_ver}
 
@@ -258,8 +256,8 @@ Requires(preun): chkconfig
 Requires(preun): initscripts
 Requires(postun): initscripts
 %endif
-Provides: %{real_name}-fpm = %{version}-%{release}, %{real_name}-fpm%{?_isa} = %{version}-%{release}
 Provides: config(%{real_name}) = %{version}-%{release}
+Provides: %{real_name}-fpm = %{version}-%{release}, %{real_name}-fpm%{?_isa} = %{version}-%{release}
 Conflicts: %{real_name}-fpm < %{base_ver}
 
 %description fpm
@@ -364,13 +362,11 @@ Group: Development/Libraries
 Summary: Files needed for building PHP extensions
 Requires: %{name}-cli = %{version}-%{release}, autoconf, automake
 Requires: pcre-devel%{?_isa}
-Provides: %{real_name}-devel = %{version}-%{release}, %{real_name}-devel%{?_isa} = %{version}-%{release}
 Provides: config(%{real_name}-devel) = %{version}-%{release}
+Provides: %{real_name}-devel = %{version}-%{release}, %{real_name}-devel%{?_isa} = %{version}-%{release}
 %if %{with_zts}
-Provides: %{name}-zts-devel = %{version}-%{release}
-Provides: %{real_name}-zts-devel = %{version}-%{release}
-Provides: %{name}-zts-devel%{?_isa} = %{version}-%{release}
-Provides: %{real_name}-zts-devel%{?_isa} = %{version}-%{release}
+Provides: %{name}-zts-devel = %{version}-%{release}, %{name}-zts-devel%{?_isa} = %{version}-%{release}
+Provides: %{real_name}-zts-devel = %{version}-%{release}, %{real_name}-zts-devel%{?_isa} = %{version}-%{release}
 %endif
 %if ! %{php_bootstrap}
 Requires: %{name}-pecl-jsonc-devel%{?_isa}
@@ -388,14 +384,10 @@ Group: Development/Languages
 License: PHP
 Requires: %{name}-common = %{version}-%{release}
 Obsoletes: %{name}-pecl-zendopcache
-Provides: %{name}-pecl-zendopcache = %{opcachever}
-Provides: %{real_name}-pecl-zendopcache = %{opcachever}
-Provides: %{name}-pecl-zendopcache%{?_isa} = %{opcachever}
-Provides: %{real_name}-pecl-zendopcache%{?_isa} = %{opcachever}
-Provides: %{name}-pecl(opcache) = %{opcachever}
-Provides: %{real_name}-pecl(opcache) = %{opcachever}
-Provides: %{name}-pecl(opcache)%{?_isa} = %{opcachever}
-Provides: %{real_name}-pecl(opcache)%{?_isa} = %{opcachever}
+Provides: %{name}-pecl-zendopcache = %{opcachever}, %{name}-pecl-zendopcache%{?_isa} = %{opcachever}
+Provides: %{real_name}-pecl-zendopcache = %{opcachever}, %{real_name}-pecl-zendopcache%{?_isa} = %{opcachever}
+Provides: %{name}-pecl(opcache) = %{opcachever}, %{name}-pecl(opcache)%{?_isa} = %{opcachever}
+Provides: %{real_name}-pecl(opcache) = %{opcachever}, %{real_name}-pecl(opcache)%{?_isa} = %{opcachever}
 Provides: %{real_name}-opcache = %{version}-%{release}
 # Only one opcode cache could be enabled
 Conflicts: php-xcache
@@ -416,8 +408,8 @@ Group: Development/Languages
 # All files licensed under PHP version 3.01
 License: PHP
 Requires: %{name}-common = %{version}-%{release}
-Provides: %{real_name}-imap = %{version}-%{release}, %{real_name}-imap%{?_isa} = %{version}-%{release}
 Provides: config(%{real_name}-imap) = %{version}-%{release}
+Provides: %{real_name}-imap = %{version}-%{release}, %{real_name}-imap%{?_isa} = %{version}-%{release}
 BuildRequires: krb5-devel, openssl-devel, libc-client-devel
 Conflicts: %{real_name}-imap < %{base_ver}
 
@@ -432,8 +424,8 @@ Group: Development/Languages
 # All files licensed under PHP version 3.01
 License: PHP
 Requires: %{name}-common = %{version}-%{release}
-Provides: %{real_name}-ldap = %{version}-%{release}, %{real_name}-ldap%{?_isa} = %{version}-%{release}
 Provides: config(%{real_name}-ldap) = %{version}-%{release}
+Provides: %{real_name}-ldap = %{version}-%{release}, %{real_name}-ldap%{?_isa} = %{version}-%{release}
 BuildRequires: cyrus-sasl-devel, openldap-devel, openssl-devel
 Conflicts: %{real_name}-ldap < %{base_ver}
 
@@ -455,11 +447,11 @@ Provides: %{name}(pdo-abi) = %{pdover}%{isasuffix}
 Provides: %{name}-sqlite3, %{name}-sqlite3%{?_isa}
 Provides: %{name}-pdo_sqlite, %{name}-pdo_sqlite%{?_isa}
 
-Provides: config(%{real_name}-pdo) = %{version}-%{release}
 Provides: %{real_name}-pdo-abi = %{pdover}%{isasuffix}
 Provides: %{real_name}(pdo-abi) = %{pdover}%{isasuffix}
 Provides: %{real_name}-sqlite3, %{real_name}-sqlite3%{?_isa}
 Provides: %{real_name}-pdo_sqlite, %{real_name}-pdo_sqlite%{?_isa}
+Provides: config(%{real_name}-pdo) = %{version}-%{release}
 Provides: %{real_name}-pdo, %{real_name}-pdo%{?_isa}
 Conflicts: %{real_name}-pdo < %{base_ver}
 
@@ -478,14 +470,10 @@ Requires: %{name}-pdo = %{version}-%{release}
 Provides: %{real_name}-mysqlnd = %{version}-%{release}
 Provides: %{name}_database
 Provides: %{real_name}_database
-Provides: %{name}-mysql = %{version}-%{release}
-Provides: %{real_name}-mysql = %{version}-%{release}
-Provides: %{name}-mysql%{?_isa} = %{version}-%{release}
-Provides: %{real_name}-mysql%{?_isa} = %{version}-%{release}
-Provides: %{name}-mysqli = %{version}-%{release}
-Provides: %{real_name}-mysqli = %{version}-%{release}
-Provides: %{name}-mysqli%{?_isa} = %{version}-%{release}
-Provides: %{real_name}-mysqli%{?_isa} = %{version}-%{release}
+Provides: %{name}-mysql = %{version}-%{release}, %{name}-mysql%{?_isa} = %{version}-%{release}
+Provides: %{real_name}-mysql = %{version}-%{release}, %{real_name}-mysql%{?_isa} = %{version}-%{release}
+Provides: %{name}-mysqli = %{version}-%{release}, %{name}-mysqli%{?_isa} = %{version}-%{release}
+Provides: %{real_name}-mysqli = %{version}-%{release}, %{real_name}-mysqli%{?_isa} = %{version}-%{release}
 Provides: %{name}-pdo_mysql, %{name}-pdo_mysql%{?_isa}
 Provides: %{real_name}-pdo_mysql, %{real_name}-pdo_mysql%{?_isa}
 Conflicts: %{real_name}-mysqlnd < %{base_ver}
@@ -554,11 +542,11 @@ Group: Development/Languages
 # pdo_odbc is licensed under PHP version 3.0
 License: PHP
 Requires: %{name}-pdo = %{version}-%{release}
-Provides: config(%{real_name}-odbc) = %{version}-%{release}
 Provides: %{name}_database
 Provides: %{name}-pdo_odbc, %{name}-pdo_odbc%{?_isa}
 Provides: %{real_name}_database
 Provides: %{real_name}-pdo_odbc = %{version}-%{release}, %{real_name}-pdo_odbc%{?_isa} = %{version}-%{release}
+Provides: config(%{real_name}-odbc) = %{version}-%{release}
 Provides: %{real_name}-odbc = %{version}-%{release}
 BuildRequires: unixODBC-devel
 Conflicts: %{real_name}-odbc < %{base_ver}
@@ -593,7 +581,6 @@ Group: Development/Languages
 # All files licensed under PHP version 3.01
 License: PHP
 BuildRequires: firebird-devel
-Provides: %{real_name}-interbase = %{version}-%{release}
 Requires: %{name}-pdo = %{version}-%{release}
 Provides: %{name}_database
 Provides: %{real_name}_database
@@ -601,6 +588,7 @@ Provides: %{name}-firebird, %{name}-firebird%{?_isa}
 Provides: %{real_name}-firebird, %{real_name}-firebird%{?_isa}
 Provides: %{name}-pdo_firebird, %{name}-pdo_firebird%{?_isa}
 Provides: %{real_name}-pdo_firebird, %{real_name}-pdo_firebird%{?_isa}
+Provides: %{real_name}-interbase = %{version}-%{release}
 Conflicts: %{real_name}-interbase < %{base_ver}
 
 %description interbase
@@ -639,7 +627,6 @@ Group: Development/Languages
 # All files licensed under PHP version 3.01
 License: PHP
 Requires: %{name}-common = %{version}-%{release}
-Provides: config(%{real_name}-xml) = %{version}-%{release}
 Provides: %{name}-dom, %{name}-dom%{?_isa}
 Provides: %{real_name}-dom, %{real_name}-dom%{?_isa}
 Provides: %{name}-domxml, %{name}-domxml%{?_isa}
@@ -654,6 +641,7 @@ Provides: %{name}-xmlwriter, %{name}-xmlwriter%{?_isa}
 Provides: %{real_name}-xmlwriter, %{real_name}-xmlwriter%{?_isa}
 Provides: %{name}-xsl, %{name}-xsl%{?_isa}
 Provides: %{real_name}-xsl, %{real_name}-xsl%{?_isa}
+Provides: config(%{real_name}-xml) = %{version}-%{release}
 Provides: %{real_name}-xml = %{version}-%{release}, %{real_name}-xml%{?_isa} = %{version}-%{release}
 BuildRequires: libxslt-devel >= 1.0.18-1, libxml2-devel >= 2.4.14-1
 Conflicts: %{real_name}-xml < %{base_ver}
@@ -760,8 +748,8 @@ Group: Development/Languages
 # All files licensed under PHP version 3.01
 License: PHP
 BuildRequires: %{db_devel}, tokyocabinet-devel
-Provides: config(%{real_name}-dba) = %{version}-%{release}
 Requires: %{name}-common = %{version}-%{release}
+Provides: config(%{real_name}-dba) = %{version}-%{release}
 Provides: %{real_name}-dba = %{version}-%{release}, %{real_name}-dba%{?_isa} = %{version}-%{release}
 Conflicts: %{real_name}-dba < %{base_ver}
 
@@ -817,9 +805,9 @@ Group: Development/Languages
 License: PHP
 Requires: %{name}-pdo = %{version}-%{release}
 BuildRequires: freetds-devel
-Provides: %{real_name}-mssql = %{version}-%{release}
 Provides: %{name}-pdo_dblib, %{name}-pdo_dblib
 Provides: %{real_name}-pdo_dblib, %{real_name}-pdo_dblib
+Provides: %{real_name}-mssql = %{version}-%{release}
 Conflicts: %{real_name}-mssql < %{base_ver}
 
 %description mssql
@@ -833,9 +821,9 @@ Summary: PHP library for embedding in applications
 Group: System Environment/Libraries
 Requires: %{name}-common = %{version}-%{release}
 # doing a real -devel package for just the .so symlink is a bit overkill
-Provides: %{real_name}-embedded = %{version}-%{release}, %{real_name}-embedded%{?_isa} = %{version}-%{release}
 Provides: %{name}-embedded-devel = %{version}-%{release}
 Provides: %{real_name}-embedded-devel = %{version}-%{release}
+Provides: %{real_name}-embedded = %{version}-%{release}, %{real_name}-embedded%{?_isa} = %{version}-%{release}
 Conflicts: %{real_name}-embedded < %{base_ver}
 
 %description embedded
