@@ -186,7 +186,7 @@ Requires: httpd-mmn = %{_httpd_mmn}
 Provides: mod_%{real_name} = %{version}-%{release}
 Provides: mod_%{name} = %{version}-%{release}
 Requires: %{name}-common%{?_isa} = %{version}-%{release}
-Provides: %{real_name} = %{version}-%{release}
+Provides: %{real_name} = %{version}-%{release}, %{real_name}%{?_isa} = %{version}-%{release}
 # For backwards-compatibility, require php-cli for the time being:
 Requires: %{name}-cli%{?_isa} = %{version}-%{release}
 # To ensure correct /var/lib/php/session ownership:
@@ -228,7 +228,7 @@ executing PHP scripts, /usr/bin/php, and the CGI interface.
 Group: Development/Languages
 Summary: The interactive PHP debugger
 Requires: %{name}-common%{?_isa} = %{version}-%{release}
-Provides: %{real_name}-dbg = %{version}-%{release}
+Provides: %{real_name}-dbg = %{version}-%{release}, %{real_name}-dbg%{?_isa} = %{version}-%{release}
 
 %description dbg
 The php-dbg package contains the interactive PHP debugger.
@@ -389,7 +389,7 @@ Provides: %{real_name}-pecl-zendopcache = %{opcachever}, %{real_name}-pecl-zendo
 Provides: %{name}-pecl(opcache) = %{opcachever}, %{name}-pecl(opcache)%{?_isa} = %{opcachever}
 Provides: %{real_name}-pecl(opcache) = %{opcachever}, %{real_name}-pecl(opcache)%{?_isa} = %{opcachever}
 Provides: config(%{real_name}-opcache) = %{version}-%{release}
-Provides: %{real_name}-opcache = %{version}-%{release}
+Provides: %{real_name}-opcache = %{version}-%{release}, %{real_name}-opcache%{?_isa} = %{version}-%{release}
 # Only one opcode cache could be enabled
 Conflicts: php-xcache
 # APC 3.1.15 offer an option to disable opcache
@@ -467,7 +467,7 @@ Group: Development/Languages
 License: PHP
 Requires: %{name}-pdo%{?_isa} = %{version}-%{release}
 Provides: config(%{real_name}-mysqlnd) = %{version}-%{release}
-Provides: %{real_name}-mysqlnd = %{version}-%{release}
+Provides: %{real_name}-mysqlnd = %{version}-%{release}, %{real_name}-mysqlnd%{?_isa} = %{version}-%{release}
 Provides: %{name}_database
 Provides: %{real_name}_database
 Provides: %{name}-mysql = %{version}-%{release}, %{name}-mysql%{?_isa} = %{version}-%{release}
@@ -547,7 +547,7 @@ Provides: %{name}-pdo_odbc, %{name}-pdo_odbc%{?_isa}
 Provides: %{real_name}_database
 Provides: %{real_name}-pdo_odbc, %{real_name}-pdo_odbc%{?_isa}
 Provides: config(%{real_name}-odbc) = %{version}-%{release}
-Provides: %{real_name}-odbc = %{version}-%{release}
+Provides: %{real_name}-odbc = %{version}-%{release}, %{real_name}-odbc%{?_isa} = %{version}-%{release}
 BuildRequires: unixODBC-devel
 Conflicts: %{real_name}-odbc < %{base_ver}
 
@@ -589,7 +589,7 @@ Provides: %{real_name}-firebird, %{real_name}-firebird%{?_isa}
 Provides: %{name}-pdo_firebird, %{name}-pdo_firebird%{?_isa}
 Provides: %{real_name}-pdo_firebird, %{real_name}-pdo_firebird%{?_isa}
 Provides: config(%{real_name}-interbase) = %{version}-%{release}
-Provides: %{real_name}-interbase = %{version}-%{release}
+Provides: %{real_name}-interbase = %{version}-%{release}, %{real_name}-interbase%{?_isa} = %{version}-%{release}
 Conflicts: %{real_name}-interbase < %{base_ver}
 
 %description interbase
@@ -612,7 +612,7 @@ Group: Development/Languages
 License: PHP
 Requires: %{name}-common%{?_isa} = %{version}-%{release}, net-snmp
 Provides: config(%{real_name}-snmp) = %{version}-%{release}
-Provides: %{real_name}-snmp = %{version}-%{release}
+Provides: %{real_name}-snmp = %{version}-%{release}, %{real_name}-snmp%{?_isa} = %{version}-%{release}
 BuildRequires: net-snmp-devel
 Conflicts: %{real_name}-snmp < %{base_ver}
 
@@ -696,7 +696,7 @@ License: PHP and BSD
 %endif
 Requires: %{name}-common%{?_isa} = %{version}-%{release}
 Provides: config(%{real_name}-gd) = %{version}-%{release}
-Provides: %{real_name}-gd = %{version}-%{release}
+Provides: %{real_name}-gd = %{version}-%{release}, %{real_name}-gd%{?_isa} = %{version}-%{release}
 BuildRequires: t1lib-devel
 %if %{with_libgd}
 BuildRequires: gd-devel >= 2.1.0
@@ -737,7 +737,7 @@ License: PHP
 BuildRequires: gmp-devel
 Requires: %{name}-common%{?_isa} = %{version}-%{release}
 Provides: config(%{real_name}-gmp) = %{version}-%{release}
-Provides: %{real_name}-gmp = %{version}-%{release}
+Provides: %{real_name}-gmp = %{version}-%{release}, %{real_name}-gmp%{?_isa} = %{version}-%{release}
 Conflicts: %{real_name}-gmp < %{base_ver}
 
 %description gmp
@@ -765,7 +765,7 @@ Summary: API for the Litespeed web server
 Group: Development/Languages
 Requires: %{name}-common%{?_isa} = %{version}-%{release}
 Provides: config(%{real_name}-litespeed) = %{version}-%{release}
-Provides: %{real_name}-litespeed = %{version}-%{release}
+Provides: %{real_name}-litespeed = %{version}-%{release}, %{real_name}-litespeed%{?_isa} = %{version}-%{release}
 Conflicts: %{real_name}-litespeed < %{base_ver}
 
 %description litespeed
@@ -779,7 +779,7 @@ Group: Development/Languages
 License: PHP
 Requires: %{name}-common%{?_isa} = %{version}-%{release}
 Provides: config(%{real_name}-mcrypt) = %{version}-%{release}
-Provides: %{real_name}-mcrypt = %{version}-%{release}
+Provides: %{real_name}-mcrypt = %{version}-%{release}, %{real_name}-mcrypt%{?_isa} = %{version}-%{release}
 BuildRequires: libmcrypt-devel
 Conflicts: %{real_name}-mcrypt < %{base_ver}
 
@@ -810,9 +810,9 @@ License: PHP
 Requires: %{name}-pdo%{?_isa} = %{version}-%{release}
 BuildRequires: freetds-devel
 Provides: %{name}-pdo_dblib, %{name}-pdo_dblib
-Provides: %{real_name}-pdo_dblib, %{real_name}-pdo_dblib
+Provides: %{real_name}-pdo_dblib, %{real_name}-pdo_dblib%{?_isa}
 Provides: config(%{real_name}-mssql) = %{version}-%{release}
-Provides: %{real_name}-mssql = %{version}-%{release}
+Provides: %{real_name}-mssql = %{version}-%{release}, %{real_name}-mssql%{?_isa} = %{version}-%{release}
 Conflicts: %{real_name}-mssql < %{base_ver}
 
 %description mssql
@@ -826,8 +826,8 @@ Summary: PHP library for embedding in applications
 Group: System Environment/Libraries
 Requires: %{name}-common%{?_isa} = %{version}-%{release}
 # doing a real -devel package for just the .so symlink is a bit overkill
-Provides: %{name}-embedded-devel = %{version}-%{release}
-Provides: %{real_name}-embedded-devel = %{version}-%{release}
+Provides: %{name}-embedded-devel = %{version}-%{release}, %{name}-embedded-devel%{?_isa} = %{version}-%{release}
+Provides: %{real_name}-embedded-devel = %{version}-%{release}, %{real_name}-embedded-devel%{?_isa} = %{version}-%{release}
 Provides: %{real_name}-embedded = %{version}-%{release}, %{real_name}-embedded%{?_isa} = %{version}-%{release}
 Conflicts: %{real_name}-embedded < %{base_ver}
 
