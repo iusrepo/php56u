@@ -8,9 +8,11 @@
 %if 0%{?rhel} >= 7
 %global with_systemd 1
 %global _macrosdir %{_rpmconfigdir}/macros.d
+%global _rundir /run
 %else
 %global with_systemd 0
 %global _macrosdir %{_sysconfdir}/rpm
+%global _rundir %{_localstatedir}/run
 %endif
 
 # API/ABI check
@@ -1411,11 +1413,7 @@ install -m 700 -d $RPM_BUILD_ROOT%{_localstatedir}/lib/php-fpm/wsdlcache
 # Log
 install -m 755 -d $RPM_BUILD_ROOT%{_localstatedir}/log/php-fpm
 
-%if 0%{?rhel} < 7
-install -m 755 -d $RPM_BUILD_ROOT%{_localstatedir}/run/php-fpm
-%else
-install -m 755 -d $RPM_BUILD_ROOT/run/php-fpm
-%endif
+install -m 755 -d $RPM_BUILD_ROOT%{_rundir}/php-fpm
 
 # Config
 install -m 755 -d $RPM_BUILD_ROOT%{_sysconfdir}/php-fpm.d
@@ -1669,11 +1667,9 @@ fi
 %files fpm
 %doc php-fpm.conf.default
 %if 0%{?rhel} >= 7
-%dir /run/php-fpm
 %license fpm_LICENSE
 %else
 %doc fpm_LICENSE
-%dir %{_localstatedir}/run/php-fpm
 %endif
 %dir %{_localstatedir}/lib/php-fpm
 %attr(0770,root,%{phpfpm_group}) %dir %{_localstatedir}/lib/php-fpm/session
@@ -1693,6 +1689,7 @@ fi
 %{_sbindir}/php-fpm
 %dir %{_sysconfdir}/php-fpm.d
 %attr(770,%{phpfpm_user},root) %dir %{_localstatedir}/log/php-fpm
+%dir %{_rundir}/php-fpm
 %{_mandir}/man8/php-fpm.8*
 %dir %{_datadir}/fpm
 %{_datadir}/fpm/status.html
