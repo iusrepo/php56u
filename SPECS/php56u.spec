@@ -256,7 +256,7 @@ Requires(preun): chkconfig
 Requires(preun): initscripts
 Requires(postun): initscripts
 %endif
-Provides: config(%{real_name}) = %{version}-%{release}
+Provides: config(%{real_name}-fpm) = %{version}-%{release}
 Provides: %{real_name}-fpm = %{version}-%{release}, %{real_name}-fpm%{?_isa} = %{version}-%{release}
 Conflicts: %{real_name}-fpm < %{base_ver}
 
