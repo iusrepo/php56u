@@ -1414,13 +1414,11 @@ sed -e 's#/run/php-fpm/php-fpm.pid#/var/run/php-fpm/php-fpm.pid#' \
 install -m 644 %{SOURCE5} $RPM_BUILD_ROOT%{_sysconfdir}/php-fpm.d/www.conf
 
 mv $RPM_BUILD_ROOT%{_sysconfdir}/php-fpm.conf.default .
-# tmpfiles.d
 %if 0%{?with_systemd}
+# tmpfiles.d
 install -m 755 -d $RPM_BUILD_ROOT%{_prefix}/lib/tmpfiles.d
 install -m 644 php-fpm.tmpfiles $RPM_BUILD_ROOT%{_prefix}/lib/tmpfiles.d/php-fpm.conf
-%endif
 # install systemd unit files and scripts for handling server startup
-%if 0%{?with_systemd}
 install -m 755 -d $RPM_BUILD_ROOT%{_sysconfdir}/systemd/system/php-fpm.service.d
 install -m 755 -d $RPM_BUILD_ROOT%{_unitdir}
 install -m 644 %{SOURCE6} $RPM_BUILD_ROOT%{_unitdir}/
