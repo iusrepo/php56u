@@ -343,7 +343,6 @@ Provides: %{real_name}-tokenizer, %{real_name}-tokenizer%{?_isa}
 
 %if %{with_zip}
 Provides: %{real_name}-zip, %{real_name}-zip%{?_isa}
-Obsoletes: %{real_name}-pecl-zip < 1.11
 %endif
 Provides: %{real_name}-zlib, %{real_name}-zlib%{?_isa}
 
