@@ -50,17 +50,18 @@
 %endif
 
 # /usr/sbin/apsx with httpd < 2.4 and defined as /usr/bin/apxs with httpd >= 2.4
- %{!?_httpd_apxs:       %{expand: %%global _httpd_apxs       %%{_sbindir}/apxs}}
- %{!?_httpd_mmn:        %{expand: %%global _httpd_mmn        %%(cat %{_includedir}/httpd/.mmn 2>/dev/null || echo missing-httpd-devel)}}
- %{!?_httpd_confdir:    %{expand: %%global _httpd_confdir    %%{_sysconfdir}/httpd/conf.d}}
- # /etc/httpd/conf.d with httpd < 2.4 and defined as /etc/httpd/conf.modules.d with httpd >= 2.4
- %{!?_httpd_modconfdir: %{expand: %%global _httpd_modconfdir %%{_sysconfdir}/httpd/conf.d}}
- %{!?_httpd_moddir:     %{expand: %%global _httpd_moddir     %%{_libdir}/httpd/modules}}
- %{!?_httpd_contentdir: %{expand: %%global _httpd_contentdir /var/www}}
+%{!?_httpd_apxs:       %{expand: %%global _httpd_apxs       %%{_sbindir}/apxs}}
+%{!?_httpd_mmn:        %{expand: %%global _httpd_mmn        %%(cat %{_includedir}/httpd/.mmn 2>/dev/null || echo missing-httpd-devel)}}
+%{!?_httpd_confdir:    %{expand: %%global _httpd_confdir    %%{_sysconfdir}/httpd/conf.d}}
+# /etc/httpd/conf.d with httpd < 2.4 and defined as /etc/httpd/conf.modules.d with httpd >= 2.4
+%{!?_httpd_modconfdir: %{expand: %%global _httpd_modconfdir %%{_sysconfdir}/httpd/conf.d}}
+%{!?_httpd_moddir:     %{expand: %%global _httpd_moddir     %%{_libdir}/httpd/modules}}
+%{!?_httpd_contentdir: %{expand: %%global _httpd_contentdir /var/www}}
 
 %global with_dtrace 1
 
 %global with_litespeed 1
+
 # build with system libgd
 %if 0%{?fedora} < 20
 %global  with_libgd 0
@@ -248,10 +249,10 @@ Requires(post): systemd-units
 Requires(preun): systemd-units
 Requires(postun): systemd-units
 %else
-Requires(post):    chkconfig
-Requires(preun):   chkconfig
-Requires(preun):   initscripts
-Requires(postun):  initscripts
+Requires(post): chkconfig
+Requires(preun): chkconfig
+Requires(preun): initscripts
+Requires(postun): initscripts
 %endif
 Provides: %{real_name}-fpm = %{version}-%{release}, %{real_name}-fpm%{?_isa} = %{version}-%{release}
 Provides: config(%{real_name}) = %{version}-%{release}
@@ -379,20 +380,20 @@ extensions. If you need to compile your own PHP extensions, you will
 need to install this package.
 
 %package opcache
-Summary:   The Zend OPcache
-Group:     Development/Languages
-License:   PHP
-Requires:  %{name}-common = %{version}-%{release}
+Summary: The Zend OPcache
+Group: Development/Languages
+License: PHP
+Requires: %{name}-common = %{version}-%{release}
 Obsoletes: %{name}-pecl-zendopcache
-Provides:  %{name}-pecl-zendopcache = %{opcachever}
-Provides:  %{real_name}-pecl-zendopcache = %{opcachever}
-Provides:  %{name}-pecl-zendopcache%{?_isa} = %{opcachever}
-Provides:  %{real_name}-pecl-zendopcache%{?_isa} = %{opcachever}
-Provides:  %{name}-pecl(opcache) = %{opcachever}
-Provides:  %{real_name}-pecl(opcache) = %{opcachever}
-Provides:  %{name}-pecl(opcache)%{?_isa} = %{opcachever}
-Provides:  %{real_name}-pecl(opcache)%{?_isa} = %{opcachever}
-Provides:  %{real_name}-opcache = %{version}-%{release}
+Provides: %{name}-pecl-zendopcache = %{opcachever}
+Provides: %{real_name}-pecl-zendopcache = %{opcachever}
+Provides: %{name}-pecl-zendopcache%{?_isa} = %{opcachever}
+Provides: %{real_name}-pecl-zendopcache%{?_isa} = %{opcachever}
+Provides: %{name}-pecl(opcache) = %{opcachever}
+Provides: %{real_name}-pecl(opcache) = %{opcachever}
+Provides: %{name}-pecl(opcache)%{?_isa} = %{opcachever}
+Provides: %{real_name}-pecl(opcache)%{?_isa} = %{opcachever}
+Provides: %{real_name}-opcache = %{version}-%{release}
 # Only one opcode cache could be enabled
 Conflicts: php-xcache
 # APC 3.1.15 offer an option to disable opcache
@@ -446,13 +447,13 @@ Group: Development/Languages
 License: PHP
 Requires: %{name}-common = %{version}-%{release}
 # ABI/API check - Arch specific
-Provides: %{name}-pdo-abi  = %{pdover}%{isasuffix}
+Provides: %{name}-pdo-abi = %{pdover}%{isasuffix}
 Provides: %{name}(pdo-abi) = %{pdover}%{isasuffix}
 Provides: %{name}-sqlite3, %{name}-sqlite3%{?_isa}
 Provides: %{name}-pdo_sqlite, %{name}-pdo_sqlite%{?_isa}
 
 Provides: config(%{real_name}-pdo) = %{version}-%{release}
-Provides: %{real_name}-pdo-abi  = %{pdover}%{isasuffix}
+Provides: %{real_name}-pdo-abi = %{pdover}%{isasuffix}
 Provides: %{real_name}(pdo-abi) = %{pdover}%{isasuffix}
 Provides: %{real_name}-sqlite3, %{real_name}-sqlite3%{?_isa}
 Provides: %{real_name}-pdo_sqlite, %{real_name}-pdo_sqlite%{?_isa}
@@ -588,7 +589,7 @@ Summary: A module for PHP applications that use Interbase/Firebird databases
 Group: Development/Languages
 # All files licensed under PHP version 3.01
 License: PHP
-BuildRequires:  firebird-devel
+BuildRequires: firebird-devel
 Provides: %{real_name}-interbase = %{version}-%{release}
 Requires: %{name}-pdo = %{version}-%{release}
 Provides: %{name}_database
