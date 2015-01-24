@@ -452,7 +452,7 @@ Provides: %{real_name}(pdo-abi) = %{pdover}%{isasuffix}
 Provides: %{real_name}-sqlite3, %{real_name}-sqlite3%{?_isa}
 Provides: %{real_name}-pdo_sqlite, %{real_name}-pdo_sqlite%{?_isa}
 Provides: config(%{real_name}-pdo) = %{version}-%{release}
-Provides: %{real_name}-pdo, %{real_name}-pdo%{?_isa}
+Provides: %{real_name}-pdo = %{version}-%{release}, %{real_name}-pdo%{?_isa} = %{version}-%{release}
 Conflicts: %{real_name}-pdo < %{base_ver}
 
 %description pdo
