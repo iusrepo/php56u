@@ -273,7 +273,7 @@ Summary: Common files for PHP
 # regex, libmagic are licensed under BSD
 # main/snprintf.c, main/spprintf.c and main/rfc1867.c are ASL 1.0
 License: PHP and BSD and ASL 1.0
-# ABI/API check - Arch specific
+Provides: config(%{real_name}-common) = %{version}-%{release}
 Provides: %{real_name}-common = %{version}-%{release}, %{real_name}-common%{?_isa} = %{version}-%{release}
 Provides: %{name}(api) = %{apiver}%{isasuffix}
 Provides: %{name}(zend-abi) = %{zendver}%{isasuffix}
@@ -388,6 +388,7 @@ Provides: %{name}-pecl-zendopcache = %{opcachever}, %{name}-pecl-zendopcache%{?_
 Provides: %{real_name}-pecl-zendopcache = %{opcachever}, %{real_name}-pecl-zendopcache%{?_isa} = %{opcachever}
 Provides: %{name}-pecl(opcache) = %{opcachever}, %{name}-pecl(opcache)%{?_isa} = %{opcachever}
 Provides: %{real_name}-pecl(opcache) = %{opcachever}, %{real_name}-pecl(opcache)%{?_isa} = %{opcachever}
+Provides: config(%{real_name}-opcache) = %{version}-%{release}
 Provides: %{real_name}-opcache = %{version}-%{release}
 # Only one opcode cache could be enabled
 Conflicts: php-xcache
@@ -465,6 +466,7 @@ Group: Development/Languages
 # All files licensed under PHP version 3.01
 License: PHP
 Requires: %{name}-pdo%{?_isa} = %{version}-%{release}
+Provides: config(%{real_name}-mysqlnd) = %{version}-%{release}
 Provides: %{real_name}-mysqlnd = %{version}-%{release}
 Provides: %{name}_database
 Provides: %{real_name}_database
@@ -524,6 +526,7 @@ Provides: %{name}-sysvshm, %{name}-sysvshm%{?_isa}
 Provides: %{real_name}-sysvshm, %{real_name}-sysvshm%{?_isa}
 Provides: %{name}-sysvmsg, %{name}-sysvmsg%{?_isa}
 Provides: %{real_name}-sysvmsg, %{real_name}-sysvmsg%{?_isa}
+Provides: config(%{real_name}-process) = %{version}-%{release}
 Provides: %{real_name}-process = %{version}-%{release}, %{real_name}-process%{?_isa} = %{version}-%{release}
 Conflicts: %{real_name}-process < %{base_ver}
 
@@ -585,6 +588,7 @@ Provides: %{name}-firebird, %{name}-firebird%{?_isa}
 Provides: %{real_name}-firebird, %{real_name}-firebird%{?_isa}
 Provides: %{name}-pdo_firebird, %{name}-pdo_firebird%{?_isa}
 Provides: %{real_name}-pdo_firebird, %{real_name}-pdo_firebird%{?_isa}
+Provides: config(%{real_name}-interbase) = %{version}-%{release}
 Provides: %{real_name}-interbase = %{version}-%{release}
 Conflicts: %{real_name}-interbase < %{base_ver}
 
@@ -732,6 +736,7 @@ Group: Development/Languages
 License: PHP
 BuildRequires: gmp-devel
 Requires: %{name}-common%{?_isa} = %{version}-%{release}
+Provides: config(%{real_name}-gmp) = %{version}-%{release}
 Provides: %{real_name}-gmp = %{version}-%{release}
 Conflicts: %{real_name}-gmp < %{base_ver}
 
@@ -759,6 +764,7 @@ support for using the DBA database abstraction layer to PHP.
 Summary: API for the Litespeed web server
 Group: Development/Languages
 Requires: %{name}-common%{?_isa} = %{version}-%{release}
+Provides: config(%{real_name}-litespeed) = %{version}-%{release}
 Provides: %{real_name}-litespeed = %{version}-%{release}
 Conflicts: %{real_name}-litespeed < %{base_ver}
 
@@ -772,6 +778,7 @@ Group: Development/Languages
 # All files licensed under PHP version 3.01
 License: PHP
 Requires: %{name}-common%{?_isa} = %{version}-%{release}
+Provides: config(%{real_name}-mcrypt) = %{version}-%{release}
 Provides: %{real_name}-mcrypt = %{version}-%{release}
 BuildRequires: libmcrypt-devel
 Conflicts: %{real_name}-mcrypt < %{base_ver}
@@ -804,6 +811,7 @@ Requires: %{name}-pdo%{?_isa} = %{version}-%{release}
 BuildRequires: freetds-devel
 Provides: %{name}-pdo_dblib, %{name}-pdo_dblib
 Provides: %{real_name}-pdo_dblib, %{real_name}-pdo_dblib
+Provides: config(%{real_name}-mssql) = %{version}-%{release}
 Provides: %{real_name}-mssql = %{version}-%{release}
 Conflicts: %{real_name}-mssql < %{base_ver}
 
