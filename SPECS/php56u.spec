@@ -1619,16 +1619,10 @@ fi
 
 %files common -f files.common
 %doc CODING_STANDARDS CREDITS EXTENSIONS NEWS README*
-%if 0%{?rhel} >= 7
-%license LICENSE Zend/ZEND_* TSRM_LICENSE regex_COPYRIGHT
-%license libmagic_LICENSE
-%license phar_LICENSE
-%else
 %doc LICENSE Zend/ZEND_* TSRM_LICENSE regex_COPYRIGHT
 %doc libmagic_LICENSE
 %doc phar_LICENSE
 %doc php.ini-*
-%endif
 %config(noreplace) %{_sysconfdir}/php.ini
 %dir %{_sysconfdir}/php.d
 %dir %{_libdir}/php
@@ -1666,11 +1660,7 @@ fi
 
 %files fpm
 %doc php-fpm.conf.default
-%if 0%{?rhel} >= 7
-%license fpm_LICENSE
-%else
 %doc fpm_LICENSE
-%endif
 %dir %{_localstatedir}/lib/php-fpm
 %attr(0770,root,%{phpfpm_group}) %dir %{_localstatedir}/lib/php-fpm/session
 %attr(0770,root,%{phpfpm_group}) %dir %{_localstatedir}/lib/php-fpm/wsdlcache
@@ -1722,32 +1712,17 @@ fi
 %files xml -f files.xml
 %files xmlrpc -f files.xmlrpc
 %files mbstring -f files.mbstring
-%if 0%{?rhel} >= 7
-%license libmbfl_LICENSE
-%license oniguruma_COPYING
-%license ucgendat_LICENSE
-%else
 %doc libmbfl_LICENSE
 %doc oniguruma_COPYING
 %doc ucgendat_LICENSE
-%endif
 %files gd -f files.gd
 %if ! %{with_libgd}
-%if 0%{?rhel} >= 7
-%license libgd_README
-%license libgd_COPYING
-%else
 %doc libgd_README
 %doc libgd_COPYING
 %endif
-%endif
 %files soap -f files.soap
 %files bcmath -f files.bcmath
-%if 0%{?rhel} >= 7
-%license libbcmath_COPYING
-%else
 %doc libbcmath_COPYING
-%endif
 %files gmp -f files.gmp
 %files dba -f files.dba
 %files pdo -f files.pdo
