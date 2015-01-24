@@ -1623,7 +1623,7 @@ chkconfig --add %{real_name}-fpm
 %if 0%{?with_systemd}
 %systemd_preun %{real_name}-fpm.service
 %else
-if [ $1 -eq 0 ] ; then
+if [ "$1" -eq 0 ] ; then
 service %{real_name}-fpm stop &> /dev/null
 chkconfig --del %{real_name}-fpm &> /dev/null
 fi
@@ -1634,7 +1634,7 @@ fi
 %systemd_postun_with_restart %{real_name}-fpm.service
 %else
 if [ "$1" -ge "1" ] ; then
-service %{real_name}-fpm condrestart >/dev/null 2>&1 || :
+service %{real_name}-fpm condrestart &> /dev/null || :
 fi
 %endif
 
