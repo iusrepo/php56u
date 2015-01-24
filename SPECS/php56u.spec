@@ -545,7 +545,7 @@ Requires: %{name}-pdo = %{version}-%{release}
 Provides: %{name}_database
 Provides: %{name}-pdo_odbc, %{name}-pdo_odbc%{?_isa}
 Provides: %{real_name}_database
-Provides: %{real_name}-pdo_odbc = %{version}-%{release}, %{real_name}-pdo_odbc%{?_isa} = %{version}-%{release}
+Provides: %{real_name}-pdo_odbc, %{real_name}-pdo_odbc%{?_isa}
 Provides: config(%{real_name}-odbc) = %{version}-%{release}
 Provides: %{real_name}-odbc = %{version}-%{release}
 BuildRequires: unixODBC-devel
