@@ -953,6 +953,9 @@ mkdir build-cgi build-apache build-embedded \
 %if %{with_zts}
     build-zts build-ztscli \
 %endif
+%if %{with_litespeed}
+    build-litespeed \
+%endif
     build-fpm
 
 # ----- Manage known as failed test -------
@@ -1221,6 +1224,16 @@ build --enable-embed \
       ${without_shared}
 popd
 
+%if 0%{with_litespeed}
+# Build litespeed module
+pushd build-litespeed
+build --with-litespeed \
+      --without-mysql \
+      --disable-pdo \
+      ${without_shared}
+popd
+%endif
+
 %if %{with_zts}
 # Build a special thread-safe (mainly for modules)
 pushd build-ztscli
@@ -1377,6 +1390,11 @@ install -m 755 -d $RPM_BUILD_ROOT%{_datadir}/php
 # install the DSO
 install -m 755 -d $RPM_BUILD_ROOT%{_httpd_moddir}
 install -m 755 build-apache/libs/libphp5.so $RPM_BUILD_ROOT%{_httpd_moddir}
+
+%if %{with_litespeed}
+# install the php litespeed binary
+install -m 755 build-litespeed/sapi/litespeed/php %{buildroot}%{_bindir}/php-ls
+%endif
 
 %if %{with_zts}
 # install the ZTS DSO
@@ -1675,6 +1693,10 @@ fi
 %dir %{_datadir}/fpm
 %{_datadir}/fpm/status.html
 
+%if %{with_litespeed}
+%files litespeed
+%{_bindir}/php-ls
+%endif
 
 %files devel
 %{_bindir}/php-config
