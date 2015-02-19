@@ -84,7 +84,7 @@
 
 Summary: PHP scripting language for creating dynamic web sites
 Name: %{real_name}%{?ius_suffix}
-Version: 5.6.5
+Version: 5.6.6
 Release: 1.ius%{?dist}
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
@@ -1757,6 +1757,10 @@ fi
 
 
 %changelog
+* Thu Feb 19 2015 Carl George <carl.george@rackspace.com> - 5.6.6-1.ius
+- Latest upstream
+- Enable acl support for fpm socket
+
 * Sat Jan 24 2015 Carl George <carl.george@rackspace.com> - 5.6.5-1.ius
 - Correct multiple provides
 - Correct multiple requires
