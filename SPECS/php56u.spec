@@ -1086,7 +1086,7 @@ ln -sf ../configure
     --without-gdbm \
     --with-jpeg-dir=%{_prefix} \
     --with-openssl \
-    --with-pcre-regex \
+    --with-pcre-regex=%{_prefix} \
     --with-zlib \
     --with-layout=GNU \
     --with-kerberos \
