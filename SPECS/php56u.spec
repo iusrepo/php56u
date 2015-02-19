@@ -1208,10 +1208,10 @@ popd
 # Build php-fpm
 pushd build-fpm
 build --enable-fpm \
-      %if 0%{?with_systemd}
       --with-fpm-acl \
+%if 0%{?with_systemd}
       --with-fpm-systemd \
-      %endif
+%endif
       --libdir=%{_libdir}/php \
       --without-mysql \
       --disable-pdo \
