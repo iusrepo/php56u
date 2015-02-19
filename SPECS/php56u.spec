@@ -241,6 +241,7 @@ Summary: PHP FastCGI Process Manager
 # Zend is licensed under Zend
 # TSRM and fpm are licensed under BSD
 License: PHP and Zend and BSD
+BuildRequires: libacl-devel
 Requires: %{name}-common%{?_isa} = %{version}-%{release}
 Requires(pre): /usr/sbin/useradd
 %if 0%{?with_systemd}
@@ -1208,6 +1209,7 @@ popd
 pushd build-fpm
 build --enable-fpm \
       %if 0%{?with_systemd}
+      --with-fpm-acl \
       --with-fpm-systemd \
       %endif
       --libdir=%{_libdir}/php \
