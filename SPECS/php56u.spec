@@ -84,8 +84,8 @@
 
 Summary: PHP scripting language for creating dynamic web sites
 Name: %{real_name}%{?ius_suffix}
-Version: 5.6.6
-Release: 2.ius%{?dist}
+Version: 5.6.7
+Release: 1.ius%{?dist}
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
 # TSRM is licensed under BSD
@@ -1757,6 +1757,9 @@ fi
 
 
 %changelog
+* Fri Mar 20 2015 Carl George <carl.george@rackspace.com> - 5.6.7-1.ius
+- Latest upstream
+
 * Mon Mar 09 2015 Ben Harper <ben.harper@rackspace.com> - 5.6.6-2.ius
 - build with bundled PCRE instead of system PCRE
 
