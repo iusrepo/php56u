@@ -1,3 +1,13 @@
+# NOTES ON BOOTSTRAPPING PHP 5.6:
+#
+# Due to the dependency cycle between PHP, pear, and pecl-jsonc, one has to
+# build in the following order:
+#
+# 1) php56u php_bootstrap 1
+# 2) php56u-pear
+# 3) php56u-pecl-jsonc
+# 4) php56u php_bootstrap 0
+
 %global base_ver 5.6
 %global real_name php
 %global ius_suffix 56u
