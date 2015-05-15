@@ -17,10 +17,12 @@
 
 %if 0%{?rhel} >= 7
 %global with_systemd 1
+%global with_system_pcre 1
 %global _macrosdir %{_rpmconfigdir}/macros.d
 %global _rundir /run
 %else
 %global with_systemd 0
+%global with_system_pcre 0
 %global _macrosdir %{_sysconfdir}/rpm
 %global _rundir %{_localstatedir}/run
 %endif
@@ -162,8 +164,6 @@ Patch47: php-5.4.9-phpinfo.patch
 # Fixes for tests (300+)
 # Factory is droped from system tzdata
 Patch300: php-5.6.3-datetests.patch
-# Revert changes for pcre < 8.34
-Patch301: php-5.6.0-oldpcre.patch
 # Backported from 7.0
 Patch302: php-5.6.8-openssltests.patch
 
@@ -178,7 +178,9 @@ BuildRequires: httpd-devel
 BuildRequires: libstdc++-devel, openssl-devel
 BuildRequires: sqlite-devel >= 3.6.0
 BuildRequires: zlib-devel, smtpdaemon, libedit-devel
+%if 0%{?with_system_pcre}
 BuildRequires: pcre-devel >= 6.6
+%endif
 BuildRequires: bzip2, perl, libtool >= 1.4.3, gcc-c++
 BuildRequires: libtool-ltdl-devel
 %if %{with_libzip}
@@ -374,7 +376,9 @@ package and the php-cli package.
 Group: Development/Libraries
 Summary: Files needed for building PHP extensions
 Requires: %{name}-cli%{?_isa} = %{version}-%{release}, autoconf, automake
+%if 0%{?with_system_pcre}
 Requires: pcre-devel%{?_isa}
+%endif
 Provides: config(%{real_name}-devel) = %{version}-%{release}
 Provides: %{real_name}-devel = %{version}-%{release}, %{real_name}-devel%{?_isa} = %{version}-%{release}
 %if %{with_zts}
@@ -940,10 +944,6 @@ httpd -V  | grep -q 'threaded:.*yes' && exit 1
 
 # Fixes for tests
 %patch300 -p1 -b .datetests
-%if 0%{?fedora} < 21
-# Only apply when system libpcre < 8.34
-%patch301 -p1 -b .pcre834
-%endif
 %patch302 -p1 -b .sslv3
 
 # Prevent %%doc confusion over LICENSE files
@@ -1100,7 +1100,9 @@ ln -sf ../configure
     --without-gdbm \
     --with-jpeg-dir=%{_prefix} \
     --with-openssl \
-    --with-pcre-regex \
+%if 0%{?with_system_pcre}
+    --with-pcre-regex=%{_prefix} \
+%endif
     --with-zlib \
     --with-layout=GNU \
     --with-kerberos \
@@ -1775,6 +1777,7 @@ fi
 - Patch302 resolved upstream
 - Import latest systzdata and datetime patches from Fedora
 - Drop SSLv3 tests (patch from upstream PHP, following example from Fedora)
+- Use the bundled PCRE on EL6 and the system PCRE on EL7
 
 * Thu Apr 16 2015 Ben Harper <ben.harper@rackspace.com> - 5.6.8-1.ius
 - Latest upstream
