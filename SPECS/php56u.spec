@@ -164,6 +164,8 @@ Patch47: php-5.4.9-phpinfo.patch
 Patch300: php-5.6.3-datetests.patch
 # Revert changes for pcre < 8.34
 Patch301: php-5.6.0-oldpcre.patch
+# Backported from 7.0
+Patch302: php-5.6.8-openssltests.patch
 
 
 BuildRequires: bzip2-devel, curl-devel >= 7.9
@@ -942,6 +944,7 @@ httpd -V  | grep -q 'threaded:.*yes' && exit 1
 # Only apply when system libpcre < 8.34
 %patch301 -p1 -b .pcre834
 %endif
+%patch302 -p1 -b .sslv3
 
 # Prevent %%doc confusion over LICENSE files
 cp Zend/LICENSE Zend/ZEND_LICENSE
@@ -1771,6 +1774,7 @@ fi
 - Latest upstream
 - Patch302 resolved upstream
 - Import latest systzdata and datetime patches from Fedora
+- Drop SSLv3 tests (patch from upstream PHP, following example from Fedora)
 
 * Thu Apr 16 2015 Ben Harper <ben.harper@rackspace.com> - 5.6.8-1.ius
 - Latest upstream
