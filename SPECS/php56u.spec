@@ -136,7 +136,7 @@ Patch21: php-5.4.7-odbctimer.patch
 
 # Functional changes
 Patch40: php-5.4.0-dlopen.patch
-Patch42: php-5.3.1-systzdata-v10.patch
+Patch42: php-5.6.9-systzdata-v12.patch
 # See http://bugs.php.net/53436
 Patch43: php-5.4.0-phpize.patch
 # Use -lldap_r for OpenLDAP
@@ -160,6 +160,8 @@ Patch47: php-5.4.9-phpinfo.patch
 # Security fixes (200+)
 
 # Fixes for tests (300+)
+# Factory is droped from system tzdata
+Patch300: php-5.6.3-datetests.patch
 # Revert changes for pcre < 8.34
 Patch301: php-5.6.0-oldpcre.patch
 
@@ -935,6 +937,7 @@ httpd -V  | grep -q 'threaded:.*yes' && exit 1
 # security patches
 
 # Fixes for tests
+%patch300 -p1 -b .datetests
 %if 0%{?fedora} < 21
 # Only apply when system libpcre < 8.34
 %patch301 -p1 -b .pcre834
@@ -1767,6 +1770,7 @@ fi
 * Fri May 15 2015 Carl George <carl.george@rackspace.com> - 5.6.9-1.ius
 - Latest upstream
 - Patch302 resolved upstream
+- Import latest systzdata and datetime patches from Fedora
 
 * Thu Apr 16 2015 Ben Harper <ben.harper@rackspace.com> - 5.6.8-1.ius
 - Latest upstream
