@@ -162,8 +162,6 @@ Patch47: php-5.4.9-phpinfo.patch
 # Fixes for tests (300+)
 # Revert changes for pcre < 8.34
 Patch301: php-5.6.0-oldpcre.patch
-# see https://bugzilla.redhat.com/971416
-Patch302: php-5.6.0-noNO.patch
 
 
 BuildRequires: bzip2-devel, curl-devel >= 7.9
@@ -941,7 +939,6 @@ httpd -V  | grep -q 'threaded:.*yes' && exit 1
 # Only apply when system libpcre < 8.34
 %patch301 -p1 -b .pcre834
 %endif
-%patch302 -p0 -b .971416
 
 # Prevent %%doc confusion over LICENSE files
 cp Zend/LICENSE Zend/ZEND_LICENSE
@@ -1769,6 +1766,7 @@ fi
 %changelog
 * Fri May 15 2015 Carl George <carl.george@rackspace.com> - 5.6.9-1.ius
 - Latest upstream
+- Patch302 resolved upstream
 
 * Thu Apr 16 2015 Ben Harper <ben.harper@rackspace.com> - 5.6.8-1.ius
 - Latest upstream
