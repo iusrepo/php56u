@@ -174,21 +174,21 @@ BuildRequires: pam-devel
 BuildRequires: httpd-devel < 2.4
 %else
 BuildRequires: httpd-devel
-%endif
+%endif # rhel 7
 BuildRequires: libstdc++-devel, openssl-devel
 BuildRequires: sqlite-devel >= 3.6.0
 BuildRequires: zlib-devel, smtpdaemon, libedit-devel
 %if 0%{?with_system_pcre}
 BuildRequires: pcre-devel >= 6.6
-%endif
+%endif # with_system_pcre
 BuildRequires: bzip2, perl, libtool >= 1.4.3, gcc-c++
 BuildRequires: libtool-ltdl-devel
 %if %{with_libzip}
 BuildRequires: libzip-devel >= 0.11
-%endif
+%endif # with_libzip
 %if %{with_dtrace}
 BuildRequires: systemtap-sdt-devel
-%endif
+%endif # with_dtrace
 
 %if %{with_zts}
 Obsoletes: %{name}-zts < 5.3.7
