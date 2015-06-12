@@ -32,7 +32,7 @@
 %global zendver     20131226
 %global pdover      20080721
 # Extension version
-%global opcachever  7.0.4-dev
+%global opcachever  7.0.6-dev
 
 # Use for first build of PHP (before pecl/zip and pecl/jsonc)
 %global php_bootstrap   0
@@ -96,7 +96,7 @@
 
 Summary: PHP scripting language for creating dynamic web sites
 Name: %{real_name}%{?ius_suffix}
-Version: 5.6.9
+Version: 5.6.10
 Release: 1.ius%{?dist}
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
@@ -165,7 +165,7 @@ Patch47: php-5.4.9-phpinfo.patch
 # Factory is droped from system tzdata
 Patch300: php-5.6.3-datetests.patch
 # Backported from 7.0
-Patch302: php-5.6.8-openssltests.patch
+#Patch302: php-5.6.8-openssltests.patch
 
 
 BuildRequires: bzip2-devel, curl-devel >= 7.9
@@ -944,7 +944,7 @@ httpd -V  | grep -q 'threaded:.*yes' && exit 1
 
 # Fixes for tests
 %patch300 -p1 -b .datetests
-%patch302 -p1 -b .sslv3
+# patch302: resolved upstream 5.6.10
 
 # Prevent %%doc confusion over LICENSE files
 cp Zend/LICENSE Zend/ZEND_LICENSE
@@ -1772,6 +1772,11 @@ fi
 
 
 %changelog
+* Fri Jun 12 2015 Carl George <carl.george@rackspace.com> - 5.6.10-1.ius
+- Latest upstream
+- SSLv3 tests removed upstream, patch no longer needed
+- Opcache is now 7.0.6-dev (thanks Remi)
+
 * Fri May 15 2015 Carl George <carl.george@rackspace.com> - 5.6.9-1.ius
 - Latest upstream
 - Patch302 resolved upstream
