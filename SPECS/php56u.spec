@@ -102,7 +102,7 @@
 
 Summary: PHP scripting language for creating dynamic web sites
 Name: %{real_name}%{?ius_suffix}
-Version: 5.6.10
+Version: 5.6.11
 Release: 1.ius%{?dist}
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
@@ -1500,9 +1500,6 @@ sed -e 's#/run/php-fpm/php-fpm.pid#/var/run/php-fpm/php-fpm.pid#' \
 install -m 755 -d $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig
 install -m 644 %{SOURCE8} $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig/php-fpm
 
-# Fix the link
-(cd $RPM_BUILD_ROOT%{_bindir}; ln -sfn phar.phar phar)
-
 # Generate files lists and stub .ini files for each subpackage
 for mod in pgsql odbc ldap snmp xmlrpc imap \
     mysqlnd mysql mysqli pdo_mysql \
@@ -1798,6 +1795,10 @@ fi
 
 
 %changelog
+* Fri Jul 10 2015 Carl George <carl.george@rackspace.com> - 5.6.11-1.ius
+- Latest upstream
+- The phar link is now correctly created (thanks Remi)
+
 * Fri Jun 12 2015 Carl George <carl.george@rackspace.com> - 5.6.10-1.ius
 - Latest upstream
 - SSLv3 tests removed upstream, patch no longer needed
