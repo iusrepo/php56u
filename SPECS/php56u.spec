@@ -102,7 +102,7 @@
 
 Summary: PHP scripting language for creating dynamic web sites
 Name: %{real_name}%{?ius_suffix}
-Version: 5.6.12
+Version: 5.6.13
 Release: 1.ius%{?dist}
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
@@ -144,7 +144,7 @@ Patch21: php-5.4.7-odbctimer.patch
 
 # Functional changes
 Patch40: php-5.4.0-dlopen.patch
-Patch42: php-5.6.9-systzdata-v12.patch
+Patch42: php-5.6.13-systzdata-v12.patch
 # See http://bugs.php.net/53436
 Patch43: php-5.4.0-phpize.patch
 # Use -lldap_r for OpenLDAP
@@ -1795,6 +1795,10 @@ fi
 
 
 %changelog
+* Thu Sep 03 2015 Carl George <carl.george@rackspace.com> - 5.6.13-1.ius
+- Latest upstream
+- Import latest systzdata patch from Fedora
+
 * Sat Aug 08 2015 Ben Harper <ben.harper@rackspace.com> - 5.6-12-1.ius
 - Latest upstream
 
