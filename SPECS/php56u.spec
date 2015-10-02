@@ -102,7 +102,7 @@
 
 Summary: PHP scripting language for creating dynamic web sites
 Name: %{real_name}%{?ius_suffix}
-Version: 5.6.13
+Version: 5.6.14
 Release: 1.ius%{?dist}
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
@@ -1795,6 +1795,9 @@ fi
 
 
 %changelog
+* Fri Oct 02 2015 Carl George <carl.george@rackspace.com> - 5.6.14-1.ius
+- Latest upstream
+
 * Thu Sep 03 2015 Carl George <carl.george@rackspace.com> - 5.6.13-1.ius
 - Latest upstream
 - Import latest systzdata patch from Fedora
