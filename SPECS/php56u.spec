@@ -102,7 +102,7 @@
 
 Summary: PHP scripting language for creating dynamic web sites
 Name: %{real_name}%{?ius_suffix}
-Version: 5.6.16
+Version: 5.6.17
 Release: 1.ius%{?dist}
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
@@ -136,7 +136,7 @@ Source51: opcache-default.blacklist
 Patch5: php-5.2.0-includedir.patch
 Patch6: php-5.6.3-embed.patch
 Patch7: php-5.3.0-recode.patch
-Patch8: php-5.4.7-libdb.patch
+Patch8: php-5.6.17-libdb.patch
 
 # Fixes for extension modules
 # https://bugs.php.net/63171 no odbc call during timeout
@@ -1795,6 +1795,10 @@ fi
 
 
 %changelog
+* Fri Jan 08 2016 Carl George <carl.george@rackspace.com> - 5.6.17-1.ius
+- Latest upstream
+- Refresh patch8
+
 * Sun Nov 29 2015 Carl George <carl.george@rackspace.com> - 5.6.16-1.ius
 - Latest upstream
 
