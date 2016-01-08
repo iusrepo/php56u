@@ -840,7 +840,7 @@ Group: Development/Languages
 License: PHP
 Requires: %{name}-pdo%{?_isa} = %{version}-%{release}
 BuildRequires: freetds-devel
-Provides: %{name}-pdo_dblib, %{name}-pdo_dblib
+Provides: %{name}-pdo_dblib, %{name}-pdo_dblib%{?_isa}
 Provides: %{real_name}-pdo_dblib, %{real_name}-pdo_dblib%{?_isa}
 Provides: config(%{real_name}-mssql) = %{version}-%{release}
 Provides: %{real_name}-mssql = %{version}-%{release}, %{real_name}-mssql%{?_isa} = %{version}-%{release}
@@ -1798,6 +1798,7 @@ fi
 * Fri Jan 08 2016 Carl George <carl.george@rackspace.com> - 5.6.17-1.ius
 - Latest upstream
 - Refresh patch8
+- Correct missing _isa provides on pdo_dblib
 
 * Sun Nov 29 2015 Carl George <carl.george@rackspace.com> - 5.6.16-1.ius
 - Latest upstream
