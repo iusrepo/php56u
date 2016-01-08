@@ -254,6 +254,7 @@ Group: Development/Languages
 Summary: The interactive PHP debugger
 Requires: %{name}-common%{?_isa} = %{version}-%{release}
 Provides: %{real_name}-dbg = %{version}-%{release}, %{real_name}-dbg%{?_isa} = %{version}-%{release}
+Conflicts: %{real_name}-dbg < %{base_ver}
 
 %description dbg
 The php-dbg package contains the interactive PHP debugger.
@@ -1794,6 +1795,7 @@ fi
 - Refresh patch8
 - Correct missing _isa provides on pdo_dblib
 - Drop old obsoletes
+- Add missing conflict for dbg
 
 * Sun Nov 29 2015 Carl George <carl.george@rackspace.com> - 5.6.16-1.ius
 - Latest upstream
