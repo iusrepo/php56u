@@ -124,7 +124,6 @@ Source4: php-fpm.conf
 Source5: php-fpm-www.conf
 Source6: php-fpm.service
 Source7: php-fpm.logrotate
-Source8: php-fpm.sysconfig
 Source9: php.modconf
 Source10: php.ztsmodconf
 Source11: strip.sh
@@ -1502,9 +1501,6 @@ install -m 644 %{SOURCE7} $RPM_BUILD_ROOT%{_sysconfdir}/logrotate.d/php-fpm
 sed -e 's#/run/php-fpm/php-fpm.pid#/var/run/php-fpm/php-fpm.pid#' \
     -i $RPM_BUILD_ROOT%{_sysconfdir}/logrotate.d/php-fpm
 %endif
-# Environment file
-install -m 755 -d $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig
-install -m 644 %{SOURCE8} $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig/php-fpm
 
 # Generate files lists and stub .ini files for each subpackage
 for mod in pgsql odbc ldap snmp xmlrpc imap \
@@ -1723,7 +1719,6 @@ fi
 %config(noreplace) %{_sysconfdir}/php-fpm.conf
 %config(noreplace) %{_sysconfdir}/php-fpm.d/www.conf
 %config(noreplace) %{_sysconfdir}/logrotate.d/php-fpm
-%config(noreplace) %{_sysconfdir}/sysconfig/php-fpm
 %if 0%{?with_systemd}
 %{_prefix}/lib/tmpfiles.d/php-fpm.conf
 %{_unitdir}/php-fpm.service
@@ -1809,6 +1804,7 @@ fi
 - Add missing conflict for dbg
 - Filter extensions (pre-EL7)
 - Use license macro
+- Deprecate /etc/sysconfig/php-fpm (not being read by init script anyways)
 
 * Sun Nov 29 2015 Carl George <carl.george@rackspace.com> - 5.6.16-1.ius
 - Latest upstream
