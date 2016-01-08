@@ -33,6 +33,8 @@
 %global with_sqlite3 0
 %endif
 
+%{!?_licensedir:%global license %%doc}
+
 # API/ABI check
 %global apiver      20131106
 %global zendver     20131226
@@ -1672,9 +1674,9 @@ fi
 
 %files common -f files.common
 %doc CODING_STANDARDS CREDITS EXTENSIONS NEWS README*
-%doc LICENSE Zend/ZEND_* TSRM_LICENSE regex_COPYRIGHT
-%doc libmagic_LICENSE
-%doc phar_LICENSE
+%license LICENSE Zend/ZEND_* TSRM_LICENSE regex_COPYRIGHT
+%license libmagic_LICENSE
+%license phar_LICENSE
 %doc php.ini-*
 %config(noreplace) %{_sysconfdir}/php.ini
 %dir %{_sysconfdir}/php.d
@@ -1713,7 +1715,7 @@ fi
 
 %files fpm
 %doc php-fpm.conf.default
-%doc fpm_LICENSE
+%license fpm_LICENSE
 %dir %{_localstatedir}/lib/php-fpm
 %attr(0770,root,%{phpfpm_group}) %dir %{_localstatedir}/lib/php-fpm/session
 %attr(0770,root,%{phpfpm_group}) %dir %{_localstatedir}/lib/php-fpm/wsdlcache
@@ -1769,17 +1771,17 @@ fi
 %files xml -f files.xml
 %files xmlrpc -f files.xmlrpc
 %files mbstring -f files.mbstring
-%doc libmbfl_LICENSE
-%doc oniguruma_COPYING
-%doc ucgendat_LICENSE
+%license libmbfl_LICENSE
+%license oniguruma_COPYING
+%license ucgendat_LICENSE
 %files gd -f files.gd
 %if ! %{with_libgd}
-%doc libgd_README
-%doc libgd_COPYING
+%license libgd_README
+%license libgd_COPYING
 %endif
 %files soap -f files.soap
 %files bcmath -f files.bcmath
-%doc libbcmath_COPYING
+%license libbcmath_COPYING
 %files gmp -f files.gmp
 %files dba -f files.dba
 %files pdo -f files.pdo
@@ -1806,6 +1808,7 @@ fi
 - Drop old obsoletes
 - Add missing conflict for dbg
 - Filter extensions (pre-EL7)
+- Use license macro
 
 * Sun Nov 29 2015 Carl George <carl.george@rackspace.com> - 5.6.16-1.ius
 - Latest upstream
