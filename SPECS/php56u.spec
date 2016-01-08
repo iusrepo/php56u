@@ -203,7 +203,6 @@ BuildRequires: systemtap-sdt-devel
 %endif # with_dtrace
 
 %if %{with_zts}
-Obsoletes: %{name}-zts < 5.3.7
 Provides: %{name}-zts = %{version}-%{release}, %{name}-zts%{?_isa} = %{version}-%{release}
 Provides: %{real_name}-zts = %{version}-%{release}, %{real_name}-zts%{?_isa} = %{version}-%{release}
 %endif
@@ -336,7 +335,6 @@ Requires: %{name}-pecl-jsonc%{?_isa}
 %endif
 %if %{with_zip}
 Provides: %{name}-zip, %{name}-zip%{?_isa}
-Obsoletes: %{name}-pecl-zip < 1.11
 %endif
 Provides: %{name}-zlib, %{name}-zlib%{?_isa}
 
@@ -375,9 +373,6 @@ Provides: %{real_name}-zip, %{real_name}-zip%{?_isa}
 %endif
 Provides: %{real_name}-zlib, %{real_name}-zlib%{?_isa}
 
-Obsoletes: %{name}-pecl-phar < 1.2.4
-Obsoletes: %{name}-pecl-Fileinfo < 1.0.5
-Obsoletes: %{name}-mhash < 5.3.0
 Conflicts: %{real_name}-common < %{base_ver}
 
 %description common
@@ -412,7 +407,6 @@ Summary: The Zend OPcache
 Group: Development/Languages
 License: PHP
 Requires: %{name}-common%{?_isa} = %{version}-%{release}
-Obsoletes: %{name}-pecl-zendopcache
 Provides: %{name}-pecl-zendopcache = %{opcachever}, %{name}-pecl-zendopcache%{?_isa} = %{opcachever}
 Provides: %{real_name}-pecl-zendopcache = %{opcachever}, %{real_name}-pecl-zendopcache%{?_isa} = %{opcachever}
 Provides: %{name}-pecl(opcache) = %{opcachever}, %{name}-pecl(opcache)%{?_isa} = %{opcachever}
@@ -1799,6 +1793,7 @@ fi
 - Latest upstream
 - Refresh patch8
 - Correct missing _isa provides on pdo_dblib
+- Drop old obsoletes
 
 * Sun Nov 29 2015 Carl George <carl.george@rackspace.com> - 5.6.16-1.ius
 - Latest upstream
