@@ -220,6 +220,15 @@ Requires(pre): httpd-mmn = %{_httpd_mmn}
 Conflicts: %{real_name} < %{base_ver}
 Conflicts: php51, php52, php53u, php54, php55u
 
+%if 0%{?rhel} < 7
+# Don't provides extensions, which are not shared library, as .so
+%{?filter_provides_in: %filter_provides_in %{_libdir}/php/modules/.*\.so$}
+%{?filter_provides_in: %filter_provides_in %{_libdir}/php-zts/modules/.*\.so$}
+%{?filter_provides_in: %filter_provides_in %{_httpd_moddir}/.*\.so$}
+%{?filter_setup}
+%endif
+
+
 %description
 PHP is an HTML-embedded scripting language. PHP attempts to make it
 easy for developers to write dynamically generated web pages. PHP also
@@ -1796,6 +1805,7 @@ fi
 - Correct missing _isa provides on pdo_dblib
 - Drop old obsoletes
 - Add missing conflict for dbg
+- Filter extensions (pre-EL7)
 
 * Sun Nov 29 2015 Carl George <carl.george@rackspace.com> - 5.6.16-1.ius
 - Latest upstream
