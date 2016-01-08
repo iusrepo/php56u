@@ -33,8 +33,6 @@
 %global with_sqlite3 0
 %endif
 
-%{!?_licensedir:%global license %%doc}
-
 # API/ABI check
 %global apiver      20131106
 %global zendver     20131226
@@ -1656,6 +1654,8 @@ fi
 
 %post embedded -p /sbin/ldconfig
 %postun embedded -p /sbin/ldconfig
+
+%{!?_licensedir:%global license %%doc}
 
 %files
 %{_httpd_moddir}/libphp5.so
