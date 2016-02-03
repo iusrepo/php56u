@@ -1503,12 +1503,11 @@ install -m 755 -d $RPM_BUILD_ROOT%{_rundir}/php-fpm
 install -m 755 -d $RPM_BUILD_ROOT%{_sysconfdir}/php-fpm.d
 
 install -m 644 %{SOURCE4} $RPM_BUILD_ROOT%{_sysconfdir}/php-fpm.conf
-%if 0%{?rhel} < 7
-sed -e 's#/run/php-fpm/php-fpm.pid#/var/run/php-fpm/php-fpm.pid#' \
-    -i $RPM_BUILD_ROOT%{_sysconfdir}/php-fpm.conf
-%endif
 install -m 644 %{SOURCE5} $RPM_BUILD_ROOT%{_sysconfdir}/php-fpm.d/www.conf
-
+%if ! %{with_systemd}
+sed -i -e 's:/run:%{_localstatedir}/run:' $RPM_BUILD_ROOT%{_sysconfdir}/php-fpm.conf
+sed -i -e 's:/run:%{_localstatedir}/run:' $RPM_BUILD_ROOT%{_sysconfdir}/php-fpm.d/www.conf
+%endif
 mv $RPM_BUILD_ROOT%{_sysconfdir}/php-fpm.conf.default .
 %if 0%{?with_systemd}
 # tmpfiles.d
@@ -1526,9 +1525,8 @@ install -m 755 %{SOURCE12} $RPM_BUILD_ROOT%{_initrddir}/php-fpm
 # LogRotate
 install -m 755 -d $RPM_BUILD_ROOT%{_sysconfdir}/logrotate.d
 install -m 644 %{SOURCE7} $RPM_BUILD_ROOT%{_sysconfdir}/logrotate.d/php-fpm
-%if 0%{?rhel} < 7
-sed -e 's#/run/php-fpm/php-fpm.pid#/var/run/php-fpm/php-fpm.pid#' \
-    -i $RPM_BUILD_ROOT%{_sysconfdir}/logrotate.d/php-fpm
+%if ! %{with_systemd}
+sed -i -e 's:/run:%{_localstatedir}/run:' $RPM_BUILD_ROOT%{_sysconfdir}/logrotate.d/php-fpm
 %endif
 # Nginx configuration
 install -D -m 644 %{SOURCE13} $RPM_BUILD_ROOT%{_sysconfdir}/nginx/conf.d/php-fpm.conf
@@ -1855,6 +1853,7 @@ fi
 - Remove duplicate php.conf in fpm package, it already is owned by main package
 - Only create separate php.conf/10-php.conf on EL7, use single php.conf on EL6
 - Add webserver fpm configuration subpackages
+- Sync fpm configuration with upstream
 
 * Fri Jan 08 2016 Carl George <carl.george@rackspace.com> - 5.6.17-1.ius
 - Latest upstream
