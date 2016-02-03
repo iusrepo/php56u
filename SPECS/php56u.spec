@@ -175,11 +175,7 @@ Patch300: php-5.6.3-datetests.patch
 
 BuildRequires: bzip2-devel, curl-devel >= 7.9
 BuildRequires: pam-devel
-%if 0%{?rhel} < 7
-BuildRequires: httpd-devel < 2.4
-%else
-BuildRequires: httpd-devel
-%endif # rhel 7
+BuildRequires: httpd-devel < 2.4.10
 BuildRequires: libstdc++-devel, openssl-devel
 %if 0%{?with_sqlite3}
 # This is the first Fedora version that sqlite was built with the
@@ -1803,6 +1799,7 @@ fi
 * Wed Feb 03 2016 Carl George <carl.george@rackspace.com> - 5.6.18-1.ius
 - Latest upstream
 - Wrap two zts-related files in with_zts
+- Build require httpd-devel < 2.4.10 to get stock httpd-devel, not httpd24u
 
 * Fri Jan 08 2016 Carl George <carl.george@rackspace.com> - 5.6.17-1.ius
 - Latest upstream
