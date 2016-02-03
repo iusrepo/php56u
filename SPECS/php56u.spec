@@ -126,7 +126,9 @@ Source9: php.modconf
 Source10: php.ztsmodconf
 Source11: strip.sh
 Source12: php-fpm.init
-
+Source13: nginx-fpm.conf
+Source14: nginx-php.conf
+Source15: httpd-fpm.conf
 # Configuration files for some extensions
 Source50: opcache.ini
 Source51: opcache-default.blacklist
@@ -295,6 +297,30 @@ Conflicts: %{real_name}-fpm < %{base_ver}
 PHP-FPM (FastCGI Process Manager) is an alternative PHP FastCGI
 implementation with some additional features useful for sites of
 any size, especially busier sites.
+
+%package fpm-nginx
+Group: Development/Languages
+Summary: Nginx configuration for PHP-FPM
+BuildArch: noarch
+Requires: %{name}-fpm = %{version}-%{release}
+Requires: nginx
+Provides: %{real_name}-fpm-nginx = %{version}-%{release}
+Conflicts: %{real_name}-fpm-nginx < %{base_ver}
+
+%description fpm-nginx
+Nginx configuration files for the PHP FastCGI Process Manager.
+
+%package fpm-httpd
+Group: Development/Languages
+Summary: Apache HTTP Server configuration for PHP-FPM
+BuildArch: noarch
+Requires: %{name}-fpm = %{version}-%{release}
+Requires: httpd >= 2.4
+Provides: %{real_name}-fpm-httpd = %{version}-%{release}
+Conflicts: %{real_name}-fpm-httpd < %{base_ver}
+
+%description fpm-httpd
+Apache HTTP Server configuration file for the PHP FastCGI Process Manager.
 
 %package common
 Group: Development/Languages
@@ -1504,6 +1530,15 @@ install -m 644 %{SOURCE7} $RPM_BUILD_ROOT%{_sysconfdir}/logrotate.d/php-fpm
 sed -e 's#/run/php-fpm/php-fpm.pid#/var/run/php-fpm/php-fpm.pid#' \
     -i $RPM_BUILD_ROOT%{_sysconfdir}/logrotate.d/php-fpm
 %endif
+# Nginx configuration
+install -D -m 644 %{SOURCE13} $RPM_BUILD_ROOT%{_sysconfdir}/nginx/conf.d/php-fpm.conf
+# Apache httpd configuration
+install -D -m 644 %{SOURCE15} $RPM_BUILD_ROOT%{_httpd_confdir}/php-fpm.conf
+%if ! %{with_systemd}
+sed -i -e 's:/run:%{_localstatedir}/run:' $RPM_BUILD_ROOT%{_sysconfdir}/nginx/conf.d/php-fpm.conf
+sed -i -e 's:/run:%{_localstatedir}/run:' $RPM_BUILD_ROOT%{_httpd_confdir}/php-fpm.conf
+%endif
+install -D -m 644 %{SOURCE14} $RPM_BUILD_ROOT%{_sysconfdir}/nginx/default.d/php.conf
 
 # Generate files lists and stub .ini files for each subpackage
 for mod in pgsql odbc ldap snmp xmlrpc imap \
@@ -1742,6 +1777,13 @@ fi
 %dir %{_datadir}/fpm
 %{_datadir}/fpm/status.html
 
+%files fpm-nginx
+%config(noreplace) %{_sysconfdir}/nginx/conf.d/php-fpm.conf
+%config(noreplace) %{_sysconfdir}/nginx/default.d/php.conf
+
+%files fpm-httpd
+%config(noreplace) %{_httpd_confdir}/php-fpm.conf
+
 %if %{with_litespeed}
 %files litespeed
 %{_bindir}/php-ls
@@ -1812,6 +1854,7 @@ fi
 - Build require httpd-devel < 2.4.10 to get stock httpd-devel, not httpd24u
 - Remove duplicate php.conf in fpm package, it already is owned by main package
 - Only create separate php.conf/10-php.conf on EL7, use single php.conf on EL6
+- Add webserver fpm configuration subpackages
 
 * Fri Jan 08 2016 Carl George <carl.george@rackspace.com> - 5.6.17-1.ius
 - Latest upstream
