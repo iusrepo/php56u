@@ -219,7 +219,7 @@ Requires(pre): httpd-mmn = %{_httpd_mmn}
 Conflicts: %{real_name} < %{base_ver}
 Conflicts: php51, php52, php53u, php54, php55u
 
-%if 0%{?rhel} < 7
+%if 0%{?rhel} && 0%{?rhel} < 7
 # Don't provides extensions, which are not shared library, as .so
 %{?filter_provides_in: %filter_provides_in %{_libdir}/php/modules/.*\.so$}
 %{?filter_provides_in: %filter_provides_in %{_libdir}/php-zts/modules/.*\.so$}
