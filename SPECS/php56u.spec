@@ -1440,12 +1440,21 @@ install -m 755 build-zts/libs/libphp5.so $RPM_BUILD_ROOT%{_httpd_moddir}/libphp5
 %endif
 
 # Apache config fragment
+%if "%{_httpd_modconfdir}" == "%{_httpd_confdir}"
+# Single config file with httpd < 2.4
+install -D -m 644 %{SOURCE9} $RPM_BUILD_ROOT%{_httpd_confdir}/php.conf
+%if %{with_zts}
+cat %{SOURCE10} >>$RPM_BUILD_ROOT%{_httpd_confdir}/php.conf
+%endif
+cat %{SOURCE1} >>$RPM_BUILD_ROOT%{_httpd_confdir}/php.conf
+%else
 # Dual config file with httpd >= 2.4 (fedora >= 18)
 install -D -m 644 %{SOURCE9} $RPM_BUILD_ROOT%{_httpd_modconfdir}/10-php.conf
 %if %{with_zts}
 cat %{SOURCE10} >>$RPM_BUILD_ROOT%{_httpd_modconfdir}/10-php.conf
 %endif
 install -D -m 644 %{SOURCE1} $RPM_BUILD_ROOT%{_httpd_confdir}/php.conf
+%endif
 
 install -m 755 -d $RPM_BUILD_ROOT%{_sysconfdir}/php.d
 %if %{with_zts}
@@ -1661,7 +1670,9 @@ fi
 %attr(0770,root,apache) %dir %{_localstatedir}/lib/php/session
 %attr(0770,root,apache) %dir %{_localstatedir}/lib/php/wsdlcache
 %config(noreplace) %{_httpd_confdir}/php.conf
+%if "%{_httpd_modconfdir}" != "%{_httpd_confdir}"
 %config(noreplace) %{_httpd_modconfdir}/10-php.conf
+%endif
 %{_httpd_contentdir}/icons/php.gif
 
 %files common -f files.common
@@ -1800,6 +1811,7 @@ fi
 - Wrap two zts-related files in with_zts
 - Build require httpd-devel < 2.4.10 to get stock httpd-devel, not httpd24u
 - Remove duplicate php.conf in fpm package, it already is owned by main package
+- Only create separate php.conf/10-php.conf on EL7, use single php.conf on EL6
 
 * Fri Jan 08 2016 Carl George <carl.george@rackspace.com> - 5.6.17-1.ius
 - Latest upstream
