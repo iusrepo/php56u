@@ -1713,7 +1713,6 @@ fi
 %dir %{_localstatedir}/lib/php-fpm
 %attr(0770,root,%{phpfpm_group}) %dir %{_localstatedir}/lib/php-fpm/session
 %attr(0770,root,%{phpfpm_group}) %dir %{_localstatedir}/lib/php-fpm/wsdlcache
-%config(noreplace) %{_httpd_confdir}/php.conf
 %config(noreplace) %{_sysconfdir}/php-fpm.conf
 %config(noreplace) %{_sysconfdir}/php-fpm.d/www.conf
 %config(noreplace) %{_sysconfdir}/logrotate.d/php-fpm
@@ -1800,6 +1799,7 @@ fi
 - Latest upstream
 - Wrap two zts-related files in with_zts
 - Build require httpd-devel < 2.4.10 to get stock httpd-devel, not httpd24u
+- Remove duplicate php.conf in fpm package, it already is owned by main package
 
 * Fri Jan 08 2016 Carl George <carl.george@rackspace.com> - 5.6.17-1.ius
 - Latest upstream
