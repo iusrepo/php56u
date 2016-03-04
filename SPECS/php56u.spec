@@ -102,7 +102,7 @@
 
 Summary: PHP scripting language for creating dynamic web sites
 Name: %{real_name}%{?ius_suffix}
-Version: 5.6.18
+Version: 5.6.19
 Release: 1.ius%{?dist}
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
@@ -1846,6 +1846,9 @@ fi
 
 
 %changelog
+* Thu Mar 03 2016 Carl George <carl.george@rackspace.com> - 5.6.19-1.ius
+- Latest upstream
+
 * Wed Feb 03 2016 Carl George <carl.george@rackspace.com> - 5.6.18-1.ius
 - Latest upstream
 - Wrap two zts-related files in with_zts
