@@ -1770,7 +1770,7 @@ fi
 %endif
 %{_sbindir}/php-fpm
 %dir %{_sysconfdir}/php-fpm.d
-%attr(770,%{phpfpm_user},root) %dir %{_localstatedir}/log/php-fpm
+%attr(770,%{phpfpm_user},%{phpfpm_group}) %dir %{_localstatedir}/log/php-fpm
 %dir %{_rundir}/php-fpm
 %{_mandir}/man8/php-fpm.8*
 %dir %{_datadir}/fpm
@@ -1849,6 +1849,7 @@ fi
 %changelog
 * Thu May 26 2016 Carl George <carl.george@rackspace.com> - 5.6.22-1.ius
 - Latest upstream
+- Change group ownership of fpm log directory from root to php-fpm
 
 * Fri Apr 29 2016 Ben Harper <ben.harper@rackspace.com> - 5.6.21-1.ius
 - Latest upstream
