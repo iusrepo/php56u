@@ -102,8 +102,8 @@
 
 Summary: PHP scripting language for creating dynamic web sites
 Name: %{real_name}%{?ius_suffix}
-Version: 5.6.22
-Release: 2.ius%{?dist}
+Version: 5.6.23
+Release: 1.ius%{?dist}
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
 # TSRM is licensed under BSD
@@ -1847,6 +1847,9 @@ fi
 
 
 %changelog
+* Thu Jun 23 2016 Carl George <carl.george@rackspace.com> - 5.6.23-1
+- Latest upstream
+
 * Tue May 31 2016 Carl George <carl.george@rackspace.com> - 5.6.22-2.ius
 - Force daemonize in init script
 
