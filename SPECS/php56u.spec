@@ -102,8 +102,8 @@
 
 Summary: PHP scripting language for creating dynamic web sites
 Name: %{real_name}%{?ius_suffix}
-Version: 5.6.24
-Release: 2.ius%{?dist}
+Version: 5.6.25
+Release: 1.ius%{?dist}
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
 # TSRM is licensed under BSD
@@ -1848,6 +1848,9 @@ fi
 
 
 %changelog
+* Fri Aug 19 2016 Ben Harper <ben.harper@rackspace.com> - 5.6.25-1.ius
+- Latest upstream
+
 * Tue Aug 16 2016 Carl George <carl.george@rackspace.com> - 5.6.24-2.ius
 - Keep logrotate happy by removing group write permission from /var/log/php-fpm
 
