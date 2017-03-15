@@ -103,7 +103,7 @@
 Summary: PHP scripting language for creating dynamic web sites
 Name: %{real_name}%{?ius_suffix}
 Version: 5.6.30
-Release: 1.ius%{?dist}
+Release: 2.ius%{?dist}
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
 # TSRM is licensed under BSD
@@ -154,6 +154,7 @@ Patch45: php-5.4.8-ldap_r.patch
 Patch46: php-5.4.9-fixheader.patch
 # drop "Configure command" from phpinfo output
 Patch47: php-5.4.9-phpinfo.patch
+Patch49: php-5.6.30-curltls.patch
 
 # Upstream fixes (100+)
 
@@ -975,6 +976,9 @@ httpd -V  | grep -q 'threaded:.*yes' && exit 1
 %endif
 %patch46 -p1 -b .fixheader
 %patch47 -p1 -b .phpinfo
+%if 0%{?rhel}
+%patch49 -p1 -b .curltls
+%endif
 
 # upstream patches
 # patch101: resolved upstream 5.6.4
@@ -1848,6 +1852,9 @@ fi
 
 
 %changelog
+* Wed Mar 15 2017 Carl George <carl.george@rackspace.com> - 5.6.30-2.ius
+- Add patch49 to enable TLS 1.1/1.2 support
+
 * Thu Jan 19 2017 Gregory Boddin <gregory@siwhine.net> - 5.6.30-1.ius
 - Latest upstream
 
