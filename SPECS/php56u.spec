@@ -1549,7 +1549,7 @@ for mod in pgsql odbc ldap snmp xmlrpc imap \
     mysqlnd mysql mysqli pdo_mysql \
     mbstring gd dom xsl soap bcmath dba xmlreader xmlwriter \
     simplexml bz2 calendar ctype exif ftp gettext gmp iconv \
-    sockets tokenizer opcache \
+    sockets tokenizer \
     pdo pdo_pgsql pdo_odbc pdo_sqlite \
 %if %{with_zip}
     zip \
