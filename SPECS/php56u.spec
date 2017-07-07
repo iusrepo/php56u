@@ -102,8 +102,8 @@
 
 Summary: PHP scripting language for creating dynamic web sites
 Name: %{real_name}%{?ius_suffix}
-Version: 5.6.30
-Release: 2.ius%{?dist}
+Version: 5.6.31
+Release: 1.ius%{?dist}
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
 # TSRM is licensed under BSD
@@ -1852,6 +1852,9 @@ fi
 
 
 %changelog
+* Fri Jul 07 2017 Ben Harper <ben.harper@rackspace.com> -  5.6.31-1.ius
+- Latest upstream
+
 * Wed Mar 15 2017 Carl George <carl.george@rackspace.com> - 5.6.30-2.ius
 - Add patch49 to enable TLS 1.1/1.2 support
 
