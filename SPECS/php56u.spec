@@ -16,21 +16,9 @@
 %global phpfpm_home %{_localstatedir}/lib/php-fpm
 
 %if 0%{?rhel} >= 7
-%global with_systemd 1
 %global with_system_pcre 1
-%global _macrosdir %{_rpmconfigdir}/macros.d
-%global _rundir /run
 %else
-%global with_systemd 0
 %global with_system_pcre 0
-%global _macrosdir %{_sysconfdir}/rpm
-%global _rundir %{_localstatedir}/run
-%endif
-
-%if 0%{?rhel} >= 6
-%global with_sqlite3 1
-%else
-%global with_sqlite3 0
 %endif
 
 # API/ABI check
@@ -86,9 +74,9 @@
 
 # build with system libgd
 %if 0%{?fedora} >= 20
-%global  with_libgd 1
+%global with_libgd 1
 %else
-%global  with_libgd 0
+%global with_libgd 0
 %endif
 
 %global with_zip     1
@@ -98,6 +86,12 @@
 %global db_devel  libdb-devel
 %else
 %global db_devel  db4-devel
+%endif
+
+%if 0%{?fedora} >= 19 || 0%{?rhel} >= 7
+%global with_systemd 1
+%else
+%global with_systemd 0
 %endif
 
 Summary: PHP scripting language for creating dynamic web sites
@@ -112,8 +106,8 @@ Group: Development/Languages
 URL: http://www.php.net/
 
 # Need to download official tarball and strip non-free stuff
-# wget http://www.php.net/distributions/php-%{version}.tar.xz
-# ./strip.sh %{version}
+# wget http://www.php.net/distributions/php-%%{version}.tar.xz
+# ./strip.sh %%{version}
 Source0: php-%{version}-strip.tar.xz
 Source1: php.conf
 Source2: php.ini
@@ -125,10 +119,10 @@ Source7: php-fpm.logrotate
 Source9: php.modconf
 Source10: php.ztsmodconf
 Source11: strip.sh
-Source12: php-fpm.init
 Source13: nginx-fpm.conf
 Source14: nginx-php.conf
 Source15: httpd-fpm.conf
+Source20: php-fpm.init
 # Configuration files for some extensions
 Source50: opcache.ini
 Source51: opcache-default.blacklist
@@ -158,35 +152,18 @@ Patch49: php-5.6.30-curltls.patch
 
 # Upstream fixes (100+)
 
-# https://bugs.php.net/bug.php?id=68423
-#Patch101: php-5.6.3-load-all-pools.patch
-
-# https://bugs.php.net/bug.php?id=68421
-#Patch102: php-5.6.3-access.format.patch
-
-# https://bugs.php.net/bug.php?id=68420
-#Patch103: php-5.6.3-listen-localhost.patch
-
 # Security fixes (200+)
 
 # Fixes for tests (300+)
 # Factory is droped from system tzdata
 Patch300: php-5.6.3-datetests.patch
-# Backported from 7.0
-#Patch302: php-5.6.8-openssltests.patch
 
 
 BuildRequires: bzip2-devel, curl-devel >= 7.9
 BuildRequires: pam-devel
 BuildRequires: httpd-devel < 2.4.10
 BuildRequires: libstdc++-devel, openssl-devel
-%if 0%{?with_sqlite3}
-# This is the first Fedora version that sqlite was built with the
-# --enable-load-extension flag.
 BuildRequires: sqlite-devel >= 3.6.0
-%else
-BuildRequires: sqlite-devel >= 3.0.0
-%endif # with_sqlite3
 BuildRequires: zlib-devel, smtpdaemon, libedit-devel
 %if 0%{?with_system_pcre}
 BuildRequires: pcre-devel >= 6.6
@@ -218,13 +195,10 @@ Requires(pre): httpd-mmn = %{_httpd_mmn}
 Conflicts: %{real_name} < %{base_ver}
 Conflicts: php51, php52, php53u, php54, php55u
 
-%if 0%{?rhel} && 0%{?rhel} < 7
-# Don't provides extensions, which are not shared library, as .so
 %{?filter_provides_in: %filter_provides_in %{_libdir}/php/modules/.*\.so$}
 %{?filter_provides_in: %filter_provides_in %{_libdir}/php-zts/modules/.*\.so$}
 %{?filter_provides_in: %filter_provides_in %{_httpd_moddir}/.*\.so$}
 %{?filter_setup}
-%endif
 
 
 %description
@@ -277,13 +251,9 @@ License: PHP and Zend and BSD
 BuildRequires: libacl-devel
 Requires: %{name}-common%{?_isa} = %{version}-%{release}
 Requires(pre): /usr/sbin/useradd
-%if 0%{?with_systemd}
-BuildRequires: systemd-units
+%if %{with_systemd}
 BuildRequires: systemd-devel
-Requires: systemd-units
-Requires(post): systemd-units
-Requires(preun): systemd-units
-Requires(postun): systemd-units
+%{?systemd_requires}
 %else
 Requires(post): chkconfig
 Requires(preun): chkconfig
@@ -965,9 +935,6 @@ httpd -V  | grep -q 'threaded:.*yes' && exit 1
 %patch7 -p1 -b .recode
 %patch8 -p1 -b .libdb
 
-# patched upstream in 5.6.21
-#%patch21 -p1 -b .odbctimer
-
 %patch40 -p1 -b .dlopen
 %patch42 -p1 -b .systzdata
 %patch43 -p1 -b .headers
@@ -981,15 +948,12 @@ httpd -V  | grep -q 'threaded:.*yes' && exit 1
 %endif
 
 # upstream patches
-# patch101: resolved upstream 5.6.4
-# patch102: resolved upstream 5.6.4
-# patch103: resolved upstream 5.6.4
 
 # security patches
 
 # Fixes for tests
 %patch300 -p1 -b .datetests
-# patch302: resolved upstream 5.6.10
+
 
 # Prevent %%doc confusion over LICENSE files
 cp Zend/LICENSE Zend/ZEND_LICENSE
@@ -1078,8 +1042,8 @@ rm -f TSRM/tsrm_win32.h \
 find . -name \*.[ch] -exec chmod 644 {} \;
 chmod 644 README.*
 
+%if %{with_systemd}
 # php-fpm configuration files for tmpfiles.d
-%if 0%{?with_systemd}
 echo "d /run/php-fpm 755 root root" >php-fpm.tmpfiles
 %endif
 
@@ -1089,11 +1053,11 @@ cp %{SOURCE50} 10-opcache.ini
 
 %build
 # aclocal workaround - to be improved
-cat `aclocal --print-ac-dir`/{libtool,ltoptions,ltsugar,ltversion,lt~obsolete}.m4 >>aclocal.m4
+cat $(aclocal --print-ac-dir)/{libtool,ltoptions,ltsugar,ltversion,lt~obsolete}.m4 >>aclocal.m4
 
 # Force use of system libtool:
 libtoolize --force --copy
-cat `aclocal --print-ac-dir`/{libtool,ltoptions,ltsugar,ltversion,lt~obsolete}.m4 >build/libtool.m4
+cat $(aclocal --print-ac-dir)/{libtool,ltoptions,ltsugar,ltversion,lt~obsolete}.m4 >build/libtool.m4
 
 # Regenerate configure scripts (patches change config.m4's)
 touch configure.in
@@ -1219,11 +1183,7 @@ build --libdir=%{_libdir}/php \
       --with-pdo-pgsql=shared,%{_prefix} \
       --with-pdo-sqlite=shared,%{_prefix} \
       --with-pdo-dblib=shared,%{_prefix} \
-%if 0%{?with_sqlite3}
       --with-sqlite3=shared,%{_prefix} \
-%else
-      --without-sqlite3 \
-%endif # with_sqlite3
 %if %{with_zip}
       --enable-zip=shared \
 %if %{with_libzip}
@@ -1273,7 +1233,7 @@ popd
 pushd build-fpm
 build --enable-fpm \
       --with-fpm-acl \
-%if 0%{?with_systemd}
+%if %{with_systemd}
       --with-fpm-systemd \
 %endif
       --libdir=%{_libdir}/php \
@@ -1359,11 +1319,7 @@ build --includedir=%{_includedir}/php-zts \
       --with-pdo-pgsql=shared,%{_prefix} \
       --with-pdo-sqlite=shared,%{_prefix} \
       --with-pdo-dblib=shared,%{_prefix} \
-%if 0%{?with_sqlite3}
       --with-sqlite3=shared,%{_prefix} \
-%else
-      --without-sqlite3 \
-%endif # with_sqlite3
 %if %{with_zip}
       --enable-zip=shared \
 %if %{with_libzip}
@@ -1429,6 +1385,7 @@ fi
 unset NO_INTERACTION REPORT_EXIT_STATUS MALLOC_CHECK_
 %endif
 
+
 %install
 %if %{with_zts}
 # Install the extensions for the ZTS version
@@ -1492,22 +1449,18 @@ install -m 755 -d $RPM_BUILD_ROOT%{_sysconfdir}/php.d
 %if %{with_zts}
 install -m 755 -d $RPM_BUILD_ROOT%{_sysconfdir}/php-zts.d
 %endif
-install -m 755 -d $RPM_BUILD_ROOT%{_localstatedir}/lib/php
-install -m 700 -d $RPM_BUILD_ROOT%{_localstatedir}/lib/php/session
-install -m 700 -d $RPM_BUILD_ROOT%{_localstatedir}/lib/php/wsdlcache
+install -m 755 -d $RPM_BUILD_ROOT%{_sharedstatedir}/php
+install -m 700 -d $RPM_BUILD_ROOT%{_sharedstatedir}/php/session
+install -m 700 -d $RPM_BUILD_ROOT%{_sharedstatedir}/php/wsdlcache
 
 # PHP-FPM stuff
-install -m 755 -d $RPM_BUILD_ROOT%{_localstatedir}/lib/php-fpm
-install -m 700 -d $RPM_BUILD_ROOT%{_localstatedir}/lib/php-fpm/session
-install -m 700 -d $RPM_BUILD_ROOT%{_localstatedir}/lib/php-fpm/wsdlcache
+install -m 755 -d $RPM_BUILD_ROOT%{_sharedstatedir}/php-fpm
+install -m 700 -d $RPM_BUILD_ROOT%{_sharedstatedir}/php-fpm/session
+install -m 700 -d $RPM_BUILD_ROOT%{_sharedstatedir}/php-fpm/wsdlcache
 # Log
 install -m 755 -d $RPM_BUILD_ROOT%{_localstatedir}/log/php-fpm
-
-install -m 755 -d $RPM_BUILD_ROOT%{_rundir}/php-fpm
-
 # Config
 install -m 755 -d $RPM_BUILD_ROOT%{_sysconfdir}/php-fpm.d
-
 install -m 644 %{SOURCE4} $RPM_BUILD_ROOT%{_sysconfdir}/php-fpm.conf
 install -m 644 %{SOURCE5} $RPM_BUILD_ROOT%{_sysconfdir}/php-fpm.d/www.conf
 %if ! %{with_systemd}
@@ -1515,7 +1468,8 @@ sed -i -e 's:/run:%{_localstatedir}/run:' $RPM_BUILD_ROOT%{_sysconfdir}/php-fpm.
 sed -i -e 's:/run:%{_localstatedir}/run:' $RPM_BUILD_ROOT%{_sysconfdir}/php-fpm.d/www.conf
 %endif
 mv $RPM_BUILD_ROOT%{_sysconfdir}/php-fpm.conf.default .
-%if 0%{?with_systemd}
+%if %{with_systemd}
+install -m 755 -d $RPM_BUILD_ROOT/run/php-fpm
 # tmpfiles.d
 install -m 755 -d $RPM_BUILD_ROOT%{_prefix}/lib/tmpfiles.d
 install -m 644 php-fpm.tmpfiles $RPM_BUILD_ROOT%{_prefix}/lib/tmpfiles.d/php-fpm.conf
@@ -1524,10 +1478,10 @@ install -m 755 -d $RPM_BUILD_ROOT%{_sysconfdir}/systemd/system/php-fpm.service.d
 install -m 755 -d $RPM_BUILD_ROOT%{_unitdir}
 install -m 644 %{SOURCE6} $RPM_BUILD_ROOT%{_unitdir}/
 %else
+install -m 755 -d $RPM_BUILD_ROOT%{_localstatedir}/run/php-fpm
 install -m 755 -d $RPM_BUILD_ROOT%{_initrddir}
-install -m 755 %{SOURCE12} $RPM_BUILD_ROOT%{_initrddir}/php-fpm
+install -m 755 %{SOURCE20} $RPM_BUILD_ROOT%{_initrddir}/php-fpm
 %endif
-
 # LogRotate
 install -m 755 -d $RPM_BUILD_ROOT%{_sysconfdir}/logrotate.d
 install -m 644 %{SOURCE7} $RPM_BUILD_ROOT%{_sysconfdir}/logrotate.d/php-fpm
@@ -1536,10 +1490,12 @@ sed -i -e 's:/run:%{_localstatedir}/run:' $RPM_BUILD_ROOT%{_sysconfdir}/logrotat
 %endif
 # Nginx configuration
 install -D -m 644 %{SOURCE13} $RPM_BUILD_ROOT%{_sysconfdir}/nginx/conf.d/php-fpm.conf
+%if ! %{with_systemd}
+sed -i -e 's:/run:%{_localstatedir}/run:' $RPM_BUILD_ROOT%{_sysconfdir}/nginx/conf.d/php-fpm.conf
+%endif
 # Apache httpd configuration
 install -D -m 644 %{SOURCE15} $RPM_BUILD_ROOT%{_httpd_confdir}/php-fpm.conf
 %if ! %{with_systemd}
-sed -i -e 's:/run:%{_localstatedir}/run:' $RPM_BUILD_ROOT%{_sysconfdir}/nginx/conf.d/php-fpm.conf
 sed -i -e 's:/run:%{_localstatedir}/run:' $RPM_BUILD_ROOT%{_httpd_confdir}/php-fpm.conf
 %endif
 install -D -m 644 %{SOURCE14} $RPM_BUILD_ROOT%{_sysconfdir}/nginx/default.d/php.conf
@@ -1555,9 +1511,7 @@ for mod in pgsql odbc ldap snmp xmlrpc imap \
     zip \
 %endif
     interbase pdo_firebird \
-%if 0%{?with_sqlite3}
     sqlite3 \
-%endif # with_sqlite3
     enchant phar fileinfo intl \
     mcrypt tidy pdo_dblib mssql pspell curl wddx \
     posix shmop sysvshm sysvsem sysvmsg recode xml \
@@ -1590,11 +1544,11 @@ EOF
 %endif
     fi
     cat > files.${mod} <<EOF
-%attr(755,root,root) %{_libdir}/php/modules/${mod}.so
-%config(noreplace) %attr(644,root,root) %{_sysconfdir}/php.d/${ini}
+%{_libdir}/php/modules/${mod}.so
+%config(noreplace) %{_sysconfdir}/php.d/${ini}
 %if %{with_zts}
-%attr(755,root,root) %{_libdir}/php-zts/modules/${mod}.so
-%config(noreplace) %attr(644,root,root) %{_sysconfdir}/php-zts.d/${ini}
+%{_libdir}/php-zts/modules/${mod}.so
+%config(noreplace) %{_sysconfdir}/php-zts.d/${ini}
 %endif
 EOF
 done
@@ -1621,9 +1575,7 @@ cat files.shmop files.sysv* files.posix > files.process
 # Package sqlite3 and pdo_sqlite with pdo; isolating the sqlite dependency
 # isn't useful at this time since rpm itself requires sqlite.
 cat files.pdo_sqlite >> files.pdo
-%if 0%{?with_sqlite3}
 cat files.sqlite3 >> files.pdo
-%endif # with_sqlite3
 
 # Package zip, curl, phar and fileinfo in -common.
 cat files.curl files.phar files.fileinfo \
@@ -1650,7 +1602,7 @@ sed -e "s/@PHP_APIVER@/%{apiver}%{isasuffix}/" \
 %endif
     < %{SOURCE3} > macros.php
 install -m 644 -D macros.php \
-           $RPM_BUILD_ROOT%{_macrosdir}/macros.php
+           $RPM_BUILD_ROOT%{rpmmacrodir}/macros.php
 
 # Remove unpackaged files
 rm -rf $RPM_BUILD_ROOT%{_libdir}/php/modules/*.a \
@@ -1671,43 +1623,43 @@ exit 0
 
 
 %post fpm
-%if 0%{?with_systemd}
+%if %{with_systemd}
 %systemd_post %{real_name}-fpm.service
 %else
-chkconfig --add %{real_name}-fpm
+if [ $1 -eq 1 ]; then
+    chkconfig --add %{real_name}-fpm &> /dev/null || :
+fi
 %endif
 
 %preun fpm
-%if 0%{?with_systemd}
+%if %{with_systemd}
 %systemd_preun %{real_name}-fpm.service
 %else
-if [ "$1" -eq 0 ] ; then
-service %{real_name}-fpm stop &> /dev/null
-chkconfig --del %{real_name}-fpm &> /dev/null
+if [ $1 -eq 0 ]; then
+    service %{real_name}-fpm stop &> /dev/null || :
+    chkconfig --del %{real_name}-fpm &> /dev/null || :
 fi
 %endif
 
 %postun fpm
-%if 0%{?with_systemd}
+%if %{with_systemd}
 %systemd_postun_with_restart %{real_name}-fpm.service
 %else
-if [ "$1" -ge "1" ] ; then
-service %{real_name}-fpm condrestart &> /dev/null || :
+if [ $1 -ge 1 ]; then
+    service %{real_name}-fpm condrestart &> /dev/null || :
 fi
 %endif
 
 %post embedded -p /sbin/ldconfig
 %postun embedded -p /sbin/ldconfig
 
-%{!?_licensedir:%global license %%doc}
-
 %files
 %{_httpd_moddir}/libphp5.so
 %if %{with_zts}
 %{_httpd_moddir}/libphp5-zts.so
 %endif
-%attr(0770,root,apache) %dir %{_localstatedir}/lib/php/session
-%attr(0770,root,apache) %dir %{_localstatedir}/lib/php/wsdlcache
+%attr(0770,root,apache) %dir %{_sharedstatedir}/php/session
+%attr(0770,root,apache) %dir %{_sharedstatedir}/php/wsdlcache
 %config(noreplace) %{_httpd_confdir}/php.conf
 %if "%{_httpd_modconfdir}" != "%{_httpd_confdir}"
 %config(noreplace) %{_httpd_modconfdir}/10-php.conf
@@ -1729,13 +1681,14 @@ fi
 %dir %{_libdir}/php-zts
 %dir %{_libdir}/php-zts/modules
 %endif
-%dir %{_localstatedir}/lib/php
+%dir %{_sharedstatedir}/php
 %dir %{_datadir}/php
 
 %files cli
 %{_bindir}/php
 %if %{with_zts}
 %{_bindir}/zts-php
+%{_mandir}/man1/zts-php.1*
 %endif
 %{_bindir}/php-cgi
 %{_bindir}/phar.phar
@@ -1743,9 +1696,6 @@ fi
 # provides phpize here (not in -devel) for pecl command
 %{_bindir}/phpize
 %{_mandir}/man1/php.1*
-%if %{with_zts}
-%{_mandir}/man1/zts-php.1*
-%endif
 %{_mandir}/man1/php-cgi.1*
 %{_mandir}/man1/phar.1*
 %{_mandir}/man1/phar.phar.1*
@@ -1753,30 +1703,31 @@ fi
 %doc sapi/cgi/README* sapi/cli/README
 
 %files dbg
-%{_bindir}/phpdbg
 %doc sapi/phpdbg/{README.md,CREDITS}
+%{_bindir}/phpdbg
 %{_mandir}/man1/phpdbg.1*
 
 %files fpm
 %doc php-fpm.conf.default
 %license fpm_LICENSE
-%dir %{_localstatedir}/lib/php-fpm
-%attr(0770,root,%{phpfpm_group}) %dir %{_localstatedir}/lib/php-fpm/session
-%attr(0770,root,%{phpfpm_group}) %dir %{_localstatedir}/lib/php-fpm/wsdlcache
+%dir %{_sharedstatedir}/php-fpm
+%attr(0770,root,%{phpfpm_group}) %dir %{_sharedstatedir}/php-fpm/session
+%attr(0770,root,%{phpfpm_group}) %dir %{_sharedstatedir}/php-fpm/wsdlcache
 %config(noreplace) %{_sysconfdir}/php-fpm.conf
 %config(noreplace) %{_sysconfdir}/php-fpm.d/www.conf
 %config(noreplace) %{_sysconfdir}/logrotate.d/php-fpm
-%if 0%{?with_systemd}
+%if %{with_systemd}
+%dir /run/php-fpm
 %{_prefix}/lib/tmpfiles.d/php-fpm.conf
 %{_unitdir}/php-fpm.service
 %dir %{_sysconfdir}/systemd/system/php-fpm.service.d
 %else
+%dir %{_localstatedir}/run/php-fpm
 %{_initrddir}/php-fpm
 %endif
 %{_sbindir}/php-fpm
 %dir %{_sysconfdir}/php-fpm.d
 %attr(750,%{phpfpm_user},%{phpfpm_group}) %dir %{_localstatedir}/log/php-fpm
-%dir %{_rundir}/php-fpm
 %{_mandir}/man8/php-fpm.8*
 %dir %{_datadir}/fpm
 %{_datadir}/fpm/status.html
@@ -1806,7 +1757,7 @@ fi
 %{_mandir}/man1/zts-phpize.1*
 %endif
 %{_mandir}/man1/php-config.1*
-%{_macrosdir}/macros.php
+%{rpmmacrodir}/macros.php
 
 %files embedded
 %{_libdir}/libphp5.so
