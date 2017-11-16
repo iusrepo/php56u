@@ -97,7 +97,7 @@
 Summary: PHP scripting language for creating dynamic web sites
 Name: %{real_name}%{?ius_suffix}
 Version: 5.6.32
-Release: 1.ius%{?dist}
+Release: 2.ius%{?dist}
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
 # TSRM is licensed under BSD
@@ -475,10 +475,8 @@ Provides: %{name}-pdo_sqlite, %{name}-pdo_sqlite%{?_isa}
 Provides: %{real_name}-pdo_sqlite, %{real_name}-pdo_sqlite%{?_isa}
 Provides: config(%{real_name}-pdo) = %{version}-%{release}
 Provides: %{real_name}-pdo = %{version}-%{release}, %{real_name}-pdo%{?_isa} = %{version}-%{release}
-%if 0%{?with_sqlite3}
 Provides: %{name}-sqlite3, %{name}-sqlite3%{?_isa}
 Provides: %{real_name}-sqlite3, %{real_name}-sqlite3%{?_isa}
-%endif # with_sqlite3
 Conflicts: %{real_name}-pdo < %{base_ver}
 
 %description pdo
@@ -1803,6 +1801,9 @@ fi
 
 
 %changelog
+* Thu Nov 16 2017 Ben Harper <ben.harper@rackspace.com> - 5.6.32-1.ius
+- correct sqlite Provides
+
 * Fri Oct 27 2017 Carl George <carl@george.computer> - 5.6.32-1.ius
 - Latest upstream
 
