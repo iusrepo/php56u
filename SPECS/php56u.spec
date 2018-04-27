@@ -15,12 +15,6 @@
 %global phpfpm_group %{phpfpm_user}
 %global phpfpm_home %{_localstatedir}/lib/php-fpm
 
-%if 0%{?rhel} >= 7
-%global with_system_pcre 1
-%else
-%global with_system_pcre 0
-%endif
-
 # API/ABI check
 %global apiver      20131106
 %global zendver     20131226
@@ -165,9 +159,6 @@ BuildRequires: httpd-devel < 2.4.10
 BuildRequires: libstdc++-devel, openssl-devel
 BuildRequires: sqlite-devel >= 3.6.0
 BuildRequires: zlib-devel, smtpdaemon, libedit-devel
-%if 0%{?with_system_pcre}
-BuildRequires: pcre-devel >= 6.6
-%endif # with_system_pcre
 BuildRequires: bzip2, perl, libtool >= 1.4.3, gcc-c++
 BuildRequires: libtool-ltdl-devel
 %if %{with_libzip}
@@ -383,9 +374,6 @@ package and the php-cli package.
 Group: Development/Libraries
 Summary: Files needed for building PHP extensions
 Requires: %{name}-cli%{?_isa} = %{version}-%{release}, autoconf, automake
-%if 0%{?with_system_pcre}
-Requires: pcre-devel%{?_isa}
-%endif
 Provides: %{real_name}-devel = %{version}-%{release}, %{real_name}-devel%{?_isa} = %{version}-%{release}
 %if %{with_zts}
 Provides: %{name}-zts-devel = %{version}-%{release}, %{name}-zts-devel%{?_isa} = %{version}-%{release}
@@ -1078,9 +1066,6 @@ ln -sf ../configure
     --without-gdbm \
     --with-jpeg-dir=%{_prefix} \
     --with-openssl \
-%if 0%{?with_system_pcre}
-    --with-pcre-regex=%{_prefix} \
-%endif
     --with-zlib \
     --with-layout=GNU \
     --with-kerberos \
@@ -1775,6 +1760,7 @@ fi
 * Thu Apr 26 2018 Carl George <carl@george.computer> - 5.6.36-1.ius
 - Latest upstream
 - Remove unnecessary config provides
+- Always Use bundled PCRE
 
 * Fri Mar 30 2018 Carl George <carl@george.computer> - 5.6.35-1.ius
 - Latest upstream
