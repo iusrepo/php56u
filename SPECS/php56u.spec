@@ -260,7 +260,6 @@ Requires(preun): chkconfig
 Requires(preun): initscripts
 Requires(postun): initscripts
 %endif
-Provides: config(%{real_name}-fpm) = %{version}-%{release}
 Provides: %{real_name}-fpm = %{version}-%{release}, %{real_name}-fpm%{?_isa} = %{version}-%{release}
 Conflicts: %{real_name}-fpm < %{base_ver}
 
@@ -301,7 +300,6 @@ Summary: Common files for PHP
 # regex, libmagic are licensed under BSD
 # main/snprintf.c, main/spprintf.c and main/rfc1867.c are ASL 1.0
 License: PHP and BSD and ASL 1.0
-Provides: config(%{real_name}-common) = %{version}-%{release}
 Provides: %{real_name}-common = %{version}-%{release}, %{real_name}-common%{?_isa} = %{version}-%{release}
 Provides: %{name}(api) = %{apiver}%{isasuffix}
 Provides: %{name}(zend-abi) = %{zendver}%{isasuffix}
@@ -388,7 +386,6 @@ Requires: %{name}-cli%{?_isa} = %{version}-%{release}, autoconf, automake
 %if 0%{?with_system_pcre}
 Requires: pcre-devel%{?_isa}
 %endif
-Provides: config(%{real_name}-devel) = %{version}-%{release}
 Provides: %{real_name}-devel = %{version}-%{release}, %{real_name}-devel%{?_isa} = %{version}-%{release}
 %if %{with_zts}
 Provides: %{name}-zts-devel = %{version}-%{release}, %{name}-zts-devel%{?_isa} = %{version}-%{release}
@@ -413,7 +410,6 @@ Provides: %{name}-pecl-zendopcache = %{opcachever}, %{name}-pecl-zendopcache%{?_
 Provides: %{real_name}-pecl-zendopcache = %{opcachever}, %{real_name}-pecl-zendopcache%{?_isa} = %{opcachever}
 Provides: %{name}-pecl(opcache) = %{opcachever}, %{name}-pecl(opcache)%{?_isa} = %{opcachever}
 Provides: %{real_name}-pecl(opcache) = %{opcachever}, %{real_name}-pecl(opcache)%{?_isa} = %{opcachever}
-Provides: config(%{real_name}-opcache) = %{version}-%{release}
 Provides: %{real_name}-opcache = %{version}-%{release}, %{real_name}-opcache%{?_isa} = %{version}-%{release}
 # Only one opcode cache could be enabled
 Conflicts: php-xcache
@@ -434,7 +430,6 @@ Group: Development/Languages
 # All files licensed under PHP version 3.01
 License: PHP
 Requires: %{name}-common%{?_isa} = %{version}-%{release}
-Provides: config(%{real_name}-imap) = %{version}-%{release}
 Provides: %{real_name}-imap = %{version}-%{release}, %{real_name}-imap%{?_isa} = %{version}-%{release}
 BuildRequires: krb5-devel, openssl-devel, libc-client-devel
 Conflicts: %{real_name}-imap < %{base_ver}
@@ -450,7 +445,6 @@ Group: Development/Languages
 # All files licensed under PHP version 3.01
 License: PHP
 Requires: %{name}-common%{?_isa} = %{version}-%{release}
-Provides: config(%{real_name}-ldap) = %{version}-%{release}
 Provides: %{real_name}-ldap = %{version}-%{release}, %{real_name}-ldap%{?_isa} = %{version}-%{release}
 BuildRequires: cyrus-sasl-devel, openldap-devel, openssl-devel
 Conflicts: %{real_name}-ldap < %{base_ver}
@@ -473,7 +467,6 @@ Provides: %{real_name}-pdo-abi = %{pdover}%{isasuffix}
 Provides: %{real_name}(pdo-abi) = %{pdover}%{isasuffix}
 Provides: %{name}-pdo_sqlite, %{name}-pdo_sqlite%{?_isa}
 Provides: %{real_name}-pdo_sqlite, %{real_name}-pdo_sqlite%{?_isa}
-Provides: config(%{real_name}-pdo) = %{version}-%{release}
 Provides: %{real_name}-pdo = %{version}-%{release}, %{real_name}-pdo%{?_isa} = %{version}-%{release}
 Provides: %{name}-sqlite3, %{name}-sqlite3%{?_isa}
 Provides: %{real_name}-sqlite3, %{real_name}-sqlite3%{?_isa}
@@ -491,7 +484,6 @@ Group: Development/Languages
 # All files licensed under PHP version 3.01
 License: PHP
 Requires: %{name}-pdo%{?_isa} = %{version}-%{release}
-Provides: config(%{real_name}-mysqlnd) = %{version}-%{release}
 Provides: %{real_name}-mysqlnd = %{version}-%{release}, %{real_name}-mysqlnd%{?_isa} = %{version}-%{release}
 Provides: %{name}_database
 Provides: %{real_name}_database
@@ -519,7 +511,6 @@ Group: Development/Languages
 # All files licensed under PHP version 3.01
 License: PHP
 Requires: %{name}-pdo%{?_isa} = %{version}-%{release}
-Provides: config(%{real_name}-pgsql) = %{version}-%{release}
 Provides: %{real_name}-pgsql = %{version}-%{release}, %{real_name}-pgsql%{?_isa} = %{version}-%{release}
 Provides: %{name}_database
 Provides: %{real_name}_database
@@ -552,7 +543,6 @@ Provides: %{name}-sysvshm, %{name}-sysvshm%{?_isa}
 Provides: %{real_name}-sysvshm, %{real_name}-sysvshm%{?_isa}
 Provides: %{name}-sysvmsg, %{name}-sysvmsg%{?_isa}
 Provides: %{real_name}-sysvmsg, %{real_name}-sysvmsg%{?_isa}
-Provides: config(%{real_name}-process) = %{version}-%{release}
 Provides: %{real_name}-process = %{version}-%{release}, %{real_name}-process%{?_isa} = %{version}-%{release}
 Conflicts: %{real_name}-process < %{base_ver}
 
@@ -572,7 +562,6 @@ Provides: %{name}_database
 Provides: %{name}-pdo_odbc, %{name}-pdo_odbc%{?_isa}
 Provides: %{real_name}_database
 Provides: %{real_name}-pdo_odbc, %{real_name}-pdo_odbc%{?_isa}
-Provides: config(%{real_name}-odbc) = %{version}-%{release}
 Provides: %{real_name}-odbc = %{version}-%{release}, %{real_name}-odbc%{?_isa} = %{version}-%{release}
 BuildRequires: unixODBC-devel
 Conflicts: %{real_name}-odbc < %{base_ver}
@@ -592,7 +581,6 @@ Group: Development/Languages
 # All files licensed under PHP version 3.01
 License: PHP
 Requires: %{name}-common%{?_isa} = %{version}-%{release}
-Provides: config(%{real_name}-soap) = %{version}-%{release}
 Provides: %{real_name}-soap = %{version}-%{release}, %{real_name}-soap%{?_isa} = %{version}-%{release}
 BuildRequires: libxml2-devel
 Conflicts: %{real_name}-soap < %{base_ver}
@@ -614,7 +602,6 @@ Provides: %{name}-firebird, %{name}-firebird%{?_isa}
 Provides: %{real_name}-firebird, %{real_name}-firebird%{?_isa}
 Provides: %{name}-pdo_firebird, %{name}-pdo_firebird%{?_isa}
 Provides: %{real_name}-pdo_firebird, %{real_name}-pdo_firebird%{?_isa}
-Provides: config(%{real_name}-interbase) = %{version}-%{release}
 Provides: %{real_name}-interbase = %{version}-%{release}, %{real_name}-interbase%{?_isa} = %{version}-%{release}
 Conflicts: %{real_name}-interbase < %{base_ver}
 
@@ -637,7 +624,6 @@ Group: Development/Languages
 # All files licensed under PHP version 3.01
 License: PHP
 Requires: %{name}-common%{?_isa} = %{version}-%{release}, net-snmp
-Provides: config(%{real_name}-snmp) = %{version}-%{release}
 Provides: %{real_name}-snmp = %{version}-%{release}, %{real_name}-snmp%{?_isa} = %{version}-%{release}
 BuildRequires: net-snmp-devel
 Conflicts: %{real_name}-snmp < %{base_ver}
@@ -668,7 +654,6 @@ Provides: %{name}-xmlwriter, %{name}-xmlwriter%{?_isa}
 Provides: %{real_name}-xmlwriter, %{real_name}-xmlwriter%{?_isa}
 Provides: %{name}-xsl, %{name}-xsl%{?_isa}
 Provides: %{real_name}-xsl, %{real_name}-xsl%{?_isa}
-Provides: config(%{real_name}-xml) = %{version}-%{release}
 Provides: %{real_name}-xml = %{version}-%{release}, %{real_name}-xml%{?_isa} = %{version}-%{release}
 BuildRequires: libxslt-devel >= 1.0.18-1, libxml2-devel >= 2.4.14-1
 Conflicts: %{real_name}-xml < %{base_ver}
@@ -685,7 +670,6 @@ Group: Development/Languages
 # libXMLRPC is licensed under BSD
 License: PHP and BSD
 Requires: %{name}-xml%{?_isa} = %{version}-%{release}
-Provides: config(%{real_name}-xmlrpc) = %{version}-%{release}
 Provides: %{real_name}-xmlrpc = %{version}-%{release}, %{real_name}-xmlrpc%{?_isa} = %{version}-%{release}
 Conflicts: %{real_name}-xmlrpc < %{base_ver}
 
@@ -702,7 +686,6 @@ Group: Development/Languages
 # ucgendat is licensed under OpenLDAP
 License: PHP and LGPLv2 and BSD and OpenLDAP
 Requires: %{name}-common%{?_isa} = %{version}-%{release}
-Provides: config(%{real_name}-mbstring) = %{version}-%{release}
 Provides: %{real_name}-mbstring = %{version}-%{release}, %{real_name}-mbstring%{?_isa} = %{version}-%{release}
 Conflicts: %{real_name}-mbstring < %{base_ver}
 
@@ -721,7 +704,6 @@ License: PHP
 License: PHP and BSD
 %endif
 Requires: %{name}-common%{?_isa} = %{version}-%{release}
-Provides: config(%{real_name}-gd) = %{version}-%{release}
 Provides: %{real_name}-gd = %{version}-%{release}, %{real_name}-gd%{?_isa} = %{version}-%{release}
 BuildRequires: t1lib-devel
 %if %{with_libgd}
@@ -747,7 +729,6 @@ Group: Development/Languages
 # libbcmath is licensed under LGPLv2+
 License: PHP and LGPLv2+
 Requires: %{name}-common%{?_isa} = %{version}-%{release}
-Provides: config(%{real_name}-bcmath) = %{version}-%{release}
 Provides: %{real_name}-bcmath = %{version}-%{release}, %{real_name}-bcmath%{?_isa} = %{version}-%{release}
 Conflicts: %{real_name}-bcmath < %{base_ver}
 
@@ -762,7 +743,6 @@ Group: Development/Languages
 License: PHP
 BuildRequires: gmp-devel
 Requires: %{name}-common%{?_isa} = %{version}-%{release}
-Provides: config(%{real_name}-gmp) = %{version}-%{release}
 Provides: %{real_name}-gmp = %{version}-%{release}, %{real_name}-gmp%{?_isa} = %{version}-%{release}
 Conflicts: %{real_name}-gmp < %{base_ver}
 
@@ -777,7 +757,6 @@ Group: Development/Languages
 License: PHP
 BuildRequires: %{db_devel}, tokyocabinet-devel
 Requires: %{name}-common%{?_isa} = %{version}-%{release}
-Provides: config(%{real_name}-dba) = %{version}-%{release}
 Provides: %{real_name}-dba = %{version}-%{release}, %{real_name}-dba%{?_isa} = %{version}-%{release}
 Conflicts: %{real_name}-dba < %{base_ver}
 
@@ -790,7 +769,6 @@ support for using the DBA database abstraction layer to PHP.
 Summary: API for the Litespeed web server
 Group: Development/Languages
 Requires: %{name}-common%{?_isa} = %{version}-%{release}
-Provides: config(%{real_name}-litespeed) = %{version}-%{release}
 Provides: %{real_name}-litespeed = %{version}-%{release}, %{real_name}-litespeed%{?_isa} = %{version}-%{release}
 Conflicts: %{real_name}-litespeed < %{base_ver}
 
@@ -804,7 +782,6 @@ Group: Development/Languages
 # All files licensed under PHP version 3.01
 License: PHP
 Requires: %{name}-common%{?_isa} = %{version}-%{release}
-Provides: config(%{real_name}-mcrypt) = %{version}-%{release}
 Provides: %{real_name}-mcrypt = %{version}-%{release}, %{real_name}-mcrypt%{?_isa} = %{version}-%{release}
 BuildRequires: libmcrypt-devel
 Conflicts: %{real_name}-mcrypt < %{base_ver}
@@ -819,7 +796,6 @@ Group: Development/Languages
 # All files licensed under PHP version 3.01
 License: PHP
 Requires: %{name}-common%{?_isa} = %{version}-%{release}
-Provides: config(%{real_name}-tidy) = %{version}-%{release}
 Provides: %{real_name}-tidy = %{version}-%{release}, %{real_name}-tidy%{?_isa} = %{version}-%{release}
 BuildRequires: libtidy-devel
 Conflicts: %{real_name}-tidy < %{base_ver}
@@ -837,7 +813,6 @@ Requires: %{name}-pdo%{?_isa} = %{version}-%{release}
 BuildRequires: freetds-devel
 Provides: %{name}-pdo_dblib, %{name}-pdo_dblib%{?_isa}
 Provides: %{real_name}-pdo_dblib, %{real_name}-pdo_dblib%{?_isa}
-Provides: config(%{real_name}-mssql) = %{version}-%{release}
 Provides: %{real_name}-mssql = %{version}-%{release}, %{real_name}-mssql%{?_isa} = %{version}-%{release}
 Conflicts: %{real_name}-mssql < %{base_ver}
 
@@ -867,7 +842,6 @@ Group: System Environment/Libraries
 # All files licensed under PHP version 3.01
 License: PHP
 Requires: %{name}-common%{?_isa} = %{version}-%{release}
-Provides: config(%{real_name}-pspell) = %{version}-%{release}
 Provides: %{real_name}-pspell = %{version}-%{release}, %{real_name}-pspell%{?_isa} = %{version}-%{release}
 BuildRequires: aspell-devel >= 0.50.0
 Conflicts: %{real_name}-pspell < %{base_ver}
@@ -882,7 +856,6 @@ Group: System Environment/Libraries
 # All files licensed under PHP version 3.01
 License: PHP
 Requires: %{name}-common%{?_isa} = %{version}-%{release}
-Provides: config(%{real_name}-recode) = %{version}-%{release}
 Provides: %{real_name}-recode = %{version}-%{release}, %{real_name}-recode%{?_isa} = %{version}-%{release}
 BuildRequires: recode-devel
 Conflicts: %{real_name}-recode < %{base_ver}
@@ -897,7 +870,6 @@ Group: System Environment/Libraries
 # All files licensed under PHP version 3.01
 License: PHP
 Requires: %{name}-common%{?_isa} = %{version}-%{release}
-Provides: config(%{real_name}-intl) = %{version}-%{release}
 Provides: %{real_name}-intl = %{version}-%{release}, %{real_name}-intl%{?_isa} = %{version}-%{release}
 BuildRequires: libicu-devel >= 4.0
 Conflicts: %{real_name}-intl < %{base_ver}
@@ -912,7 +884,6 @@ Group: System Environment/Libraries
 # All files licensed under PHP version 3.0
 License: PHP
 Requires: %{name}-common%{?_isa} = %{version}-%{release}
-Provides: config(%{real_name}-enchant) = %{version}-%{release}
 Provides: %{real_name}-enchant = %{version}-%{release}, %{real_name}-enchant%{?_isa} = %{version}-%{release}
 BuildRequires: enchant-devel >= 1.2.4
 Conflicts: %{real_name}-enchant < %{base_ver}
@@ -1803,6 +1774,7 @@ fi
 %changelog
 * Thu Apr 26 2018 Carl George <carl@george.computer> - 5.6.36-1.ius
 - Latest upstream
+- Remove unnecessary config provides
 
 * Fri Mar 30 2018 Carl George <carl@george.computer> - 5.6.35-1.ius
 - Latest upstream
