@@ -90,7 +90,7 @@
 
 Summary: PHP scripting language for creating dynamic web sites
 Name: %{real_name}%{?ius_suffix}
-Version: 5.6.37
+Version: 5.6.38
 Release: 1.ius%{?dist}
 # All files licensed under PHP version 3.01, except
 # Zend is licensed under Zend
@@ -1757,6 +1757,9 @@ fi
 
 
 %changelog
+* Thu Sep 13 2018 Carl George <carl@george.computer> - 5.6.38-1.ius
+- Latest upstream
+
 * Mon Jul 23 2018 Carl George <carl@george.computer> - 5.6.37-1.ius
 - Latest upstream
 
